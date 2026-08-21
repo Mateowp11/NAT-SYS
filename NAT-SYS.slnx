@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Entidades/NatSys.UI.csproj" />
+  <Project Path="NatSys.BLL/NatSys.BLL.csproj" />
+  <Project Path="NatSys.DAL/NatSys.DAL.csproj" />
+  <Project Path="NatSys.Entidades/NatSys.Entidades.csproj" />
+</Solution>
