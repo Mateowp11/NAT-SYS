@@ -53,6 +53,27 @@ namespace NatSys.DAL
             // a cualquiera de los dos.
             modelBuilder.Entity<Persona>().UseTptMappingStrategy();
 
+            // IMPORTANTE: le decimos a EF explicitamente cual es la clave
+            // primaria de cada entidad. Por que hace falta: EF busca solo
+            // "Id" o "NombreClaseId" (por ejemplo "PersonaId"), y nuestras
+            // clases usan el orden al reves ("IdPersona") - un nombre mas
+            // claro para nosotros, pero que EF no reconoce sin que se lo
+            // digamos aca.
+            //
+            // Atleta y Entrenador NO necesitan su propio HasKey: al ser TPT,
+            // heredan la clave de Persona automaticamente.
+            modelBuilder.Entity<Persona>().HasKey(p => p.IdPersona);
+            modelBuilder.Entity<Usuario>().HasKey(u => u.IdUsuario);
+            modelBuilder.Entity<Sesion>().HasKey(s => s.IdSesion);
+            modelBuilder.Entity<Grupo>().HasKey(g => g.IdGrupo);
+            modelBuilder.Entity<Permiso>().HasKey(p => p.IdPermiso);
+            modelBuilder.Entity<Estilo>().HasKey(e => e.IdEstilo);
+            modelBuilder.Entity<Prueba>().HasKey(p => p.IdPrueba);
+            modelBuilder.Entity<Torneo>().HasKey(t => t.IdTorneo);
+            modelBuilder.Entity<Marca>().HasKey(m => m.IdMarca);
+            modelBuilder.Entity<PlanPasaje>().HasKey(p => p.IdPlanPasaje);
+            modelBuilder.Entity<Pasaje>().HasKey(pa => pa.IdPasaje);
+
             modelBuilder.Entity<Usuario>()
                 .HasMany(u => u.Grupos)
                 .WithMany(g => g.Usuarios);
