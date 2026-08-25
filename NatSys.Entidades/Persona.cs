@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NatSys.Entidades
 {
-    public class Persona
+    public abstract class Persona
     {
         public int IdPersona { get; set; }
         public string Nombre { get; set; }

@@ -7,7 +7,7 @@ namespace NatSys.Entidades
     public class Estilo
     {
         public int IdEstilo { get; set; }
-        public string NombreEstilo { get; set; } // Crol, Espalda, Pecho, Mariposa
+        public string Nombre { get; set; } // Crol, Espalda, Pecho, Mariposa
         public decimal CoefFatigaInicial { get; set; }
         public decimal CoefFatigaMedio { get; set; }
         public decimal CoefFatigaFinal { get; set; }
