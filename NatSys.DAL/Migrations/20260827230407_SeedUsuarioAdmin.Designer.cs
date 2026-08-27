@@ -12,8 +12,8 @@ using NatSys.DAL;
 namespace NatSys.DAL.Migrations
 {
     [DbContext(typeof(NatSysDbContext))]
-    [Migration("20260825224932_InicialNatSys")]
-    partial class InicialNatSys
+    [Migration("20260827230407_SeedUsuarioAdmin")]
+    partial class SeedUsuarioAdmin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -284,16 +284,13 @@ namespace NatSys.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PruebaIdPrueba")
-                        .HasColumnType("int");
-
                     b.HasKey("IdPlanPasaje");
 
                     b.HasIndex("IdAtleta");
 
                     b.HasIndex("IdEntrenador");
 
-                    b.HasIndex("PruebaIdPrueba");
+                    b.HasIndex("IdPrueba");
 
                     b.ToTable("PlanesPasaje");
                 });
@@ -406,10 +403,7 @@ namespace NatSys.DAL.Migrations
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PersonaIdPersona")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PreguntaSeguridad")
                         .IsRequired()
@@ -424,9 +418,25 @@ namespace NatSys.DAL.Migrations
 
                     b.HasKey("IdUsuario");
 
-                    b.HasIndex("PersonaIdPersona");
+                    b.HasIndex("IdPersona");
+
+                    b.HasIndex("NombreUsuario")
+                        .IsUnique();
 
                     b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            IdUsuario = 1,
+                            Clave = "100000.4uvRpU0wa/QMbwBk3j9KVw==.3R4HkrQp2yVzE/gVZ1Ah24Pcd2IWeBNbwkOimRtx6aU=",
+                            Estado = "activo",
+                            IdPersona = 1,
+                            IntentosFallidos = 0,
+                            NombreUsuario = "admin",
+                            PreguntaSeguridad = "¿Cuál es tu comida favorita?",
+                            RespuestaSeguridadHash = "100000.kESgVpXzptVDIk65q4lo0w==.9zFXADSlOndC/igsrxTKhiGfWubSxlAKtqA4z52luZ0="
+                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Atleta", b =>
@@ -457,6 +467,19 @@ namespace NatSys.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Entrenadores");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPersona = 1,
+                            Apellido = "Sistema",
+                            Email = "admin@natsys.local",
+                            FechaNacimiento = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "Admin",
+                            Telefono = "",
+                            Especialidad = "Administrador",
+                            Estado = "activo"
+                        });
                 });
 
             modelBuilder.Entity("AtletaPrueba", b =>
@@ -509,13 +532,13 @@ namespace NatSys.DAL.Migrations
                     b.HasOne("NatSys.Entidades.Atleta", "Atleta")
                         .WithMany("Marcas")
                         .HasForeignKey("IdAtleta")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NatSys.Entidades.Prueba", "Prueba")
                         .WithMany()
                         .HasForeignKey("IdPrueba")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NatSys.Entidades.Torneo", "TorneoRegistro")
@@ -545,19 +568,19 @@ namespace NatSys.DAL.Migrations
                     b.HasOne("NatSys.Entidades.Atleta", "Atleta")
                         .WithMany()
                         .HasForeignKey("IdAtleta")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NatSys.Entidades.Entrenador", "Entrenador")
                         .WithMany("Planes")
                         .HasForeignKey("IdEntrenador")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NatSys.Entidades.Prueba", "Prueba")
                         .WithMany()
-                        .HasForeignKey("PruebaIdPrueba")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("IdPrueba")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Atleta");
@@ -593,7 +616,7 @@ namespace NatSys.DAL.Migrations
                 {
                     b.HasOne("NatSys.Entidades.Persona", "Persona")
                         .WithMany()
-                        .HasForeignKey("PersonaIdPersona")
+                        .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

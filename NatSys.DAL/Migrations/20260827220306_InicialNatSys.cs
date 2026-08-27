@@ -187,15 +187,14 @@ namespace NatSys.DAL.Migrations
                     UltimoAcceso = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PreguntaSeguridad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RespuestaSeguridadHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdPersona = table.Column<int>(type: "int", nullable: false),
-                    PersonaIdPersona = table.Column<int>(type: "int", nullable: false)
+                    IdPersona = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.IdUsuario);
                     table.ForeignKey(
-                        name: "FK_Usuarios_Personas_PersonaIdPersona",
-                        column: x => x.PersonaIdPersona,
+                        name: "FK_Usuarios_Personas_IdPersona",
+                        column: x => x.IdPersona,
                         principalTable: "Personas",
                         principalColumn: "IdPersona",
                         onDelete: ReferentialAction.Cascade);
@@ -248,13 +247,13 @@ namespace NatSys.DAL.Migrations
                         column: x => x.IdAtleta,
                         principalTable: "Atletas",
                         principalColumn: "IdPersona",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Marcas_Pruebas_IdPrueba",
                         column: x => x.IdPrueba,
                         principalTable: "Pruebas",
                         principalColumn: "IdPrueba",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Marcas_Torneos_IdTorneo",
                         column: x => x.IdTorneo,
@@ -274,7 +273,6 @@ namespace NatSys.DAL.Migrations
                     LargoPileta = table.Column<int>(type: "int", nullable: false),
                     IdAtleta = table.Column<int>(type: "int", nullable: false),
                     IdPrueba = table.Column<int>(type: "int", nullable: false),
-                    PruebaIdPrueba = table.Column<int>(type: "int", nullable: false),
                     IdEntrenador = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -285,19 +283,19 @@ namespace NatSys.DAL.Migrations
                         column: x => x.IdAtleta,
                         principalTable: "Atletas",
                         principalColumn: "IdPersona",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PlanesPasaje_Entrenadores_IdEntrenador",
                         column: x => x.IdEntrenador,
                         principalTable: "Entrenadores",
                         principalColumn: "IdPersona",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PlanesPasaje_Pruebas_PruebaIdPrueba",
-                        column: x => x.PruebaIdPrueba,
+                        name: "FK_PlanesPasaje_Pruebas_IdPrueba",
+                        column: x => x.IdPrueba,
                         principalTable: "Pruebas",
                         principalColumn: "IdPrueba",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -414,9 +412,9 @@ namespace NatSys.DAL.Migrations
                 column: "IdEntrenador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanesPasaje_PruebaIdPrueba",
+                name: "IX_PlanesPasaje_IdPrueba",
                 table: "PlanesPasaje",
-                column: "PruebaIdPrueba");
+                column: "IdPrueba");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pruebas_IdEstilo",
@@ -429,9 +427,9 @@ namespace NatSys.DAL.Migrations
                 column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_PersonaIdPersona",
+                name: "IX_Usuarios_IdPersona",
                 table: "Usuarios",
-                column: "PersonaIdPersona");
+                column: "IdPersona");
         }
 
         /// <inheritdoc />

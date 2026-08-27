@@ -2,6 +2,7 @@
 // Instalar antes via NuGet: Microsoft.EntityFrameworkCore.SqlServer
 //                           Microsoft.EntityFrameworkCore.Tools
 
+using System;
 using Microsoft.EntityFrameworkCore;
 using NatSys.Entidades;
 
@@ -75,6 +76,15 @@ namespace NatSys.DAL
             modelBuilder.Entity<Pasaje>().HasKey(pa => pa.IdPasaje);
 
             modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.NombreUsuario)
+                .IsUnique();
+
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.Persona)
+                .WithMany()
+                .HasForeignKey(u => u.IdPersona);
+
+            modelBuilder.Entity<Usuario>()
                 .HasMany(u => u.Grupos)
                 .WithMany(g => g.Usuarios);
 
@@ -94,12 +104,14 @@ namespace NatSys.DAL
             modelBuilder.Entity<Marca>()
                 .HasOne(m => m.Atleta)
                 .WithMany(a => a.Marcas)
-                .HasForeignKey(m => m.IdAtleta);
+                .HasForeignKey(m => m.IdAtleta)
+                .OnDelete(DeleteBehavior.Restrict); // no borrar en cascada el historial de marcas
 
             modelBuilder.Entity<Marca>()
                 .HasOne(m => m.Prueba)
                 .WithMany()
-                .HasForeignKey(m => m.IdPrueba);
+                .HasForeignKey(m => m.IdPrueba)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Marca>()
                 .HasOne(m => m.TorneoRegistro)
@@ -112,20 +124,81 @@ namespace NatSys.DAL
                 .WithMany()
                 .HasForeignKey(p => p.IdEstilo);
 
+            // Restrict en las 3 relaciones de PlanPasaje: es lo que resuelve
+            // el error de SQL Server "may cause cycles or multiple cascade
+            // paths". Como Atleta y Entrenador comparten el mismo ancestro
+            // (Persona, por la herencia TPT), SQL Server no permite que las
+            // dos rutas de borrado en cascada lleguen a la misma tabla
+            // (PlanesPasaje). Ademas, tiene sentido para el negocio: no
+            // queremos que borrar un atleta o entrenador borre en cascada,
+            // en silencio, sus planes de pasajes historicos.
             modelBuilder.Entity<PlanPasaje>()
                 .HasOne(p => p.Atleta)
                 .WithMany()
-                .HasForeignKey(p => p.IdAtleta);
+                .HasForeignKey(p => p.IdAtleta)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlanPasaje>()
                 .HasOne(p => p.Entrenador)
                 .WithMany(e => e.Planes)
-                .HasForeignKey(p => p.IdEntrenador);
+                .HasForeignKey(p => p.IdEntrenador)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PlanPasaje>()
+                .HasOne(p => p.Prueba)
+                .WithMany()
+                .HasForeignKey(p => p.IdPrueba)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Pasaje>()
                 .HasOne(pa => pa.Plan)
                 .WithMany(pl => pl.Pasajes)
                 .HasForeignKey(pa => pa.IdPlanPasaje);
+
+            // ---------- Usuario de fabrica ----------
+            //
+            // Toda base de datos NUEVA (la tuya ahora, o la de un cliente el
+            // dia de mañana) nace con este usuario ya cargado, como parte de
+            // la migracion misma - sin editar codigo a mano en cada
+            // instalacion.
+            //
+            // Usuario: admin / Contraseña: Admin1234
+            // Pregunta de seguridad: ¿Cual es tu comida favorita? / pizza
+            //
+            // Los hashes de abajo son fijos (calculados una sola vez), no se
+            // generan de nuevo en cada instalacion - por eso la contraseña
+            // de fabrica es la MISMA en todas las instalaciones. Por
+            // seguridad, el entrenador tiene que cambiarla apenas entra por
+            // primera vez (con GestorSeguridad.CambiarContraseña).
+            //
+            // Con TPT, el HasData de Entrenador (con TODAS sus propiedades,
+            // heredadas + propias) alcanza para sembrar tanto la fila de
+            // Personas como la de Entrenadores - no hace falta (y de hecho
+            // rompe) tener ademas un HasData separado para Persona con el
+            // mismo Id.
+            modelBuilder.Entity<Entrenador>().HasData(new
+            {
+                IdPersona = 1,
+                Nombre = "Admin",
+                Apellido = "Sistema",
+                Email = "admin@natsys.local",
+                Telefono = "",
+                FechaNacimiento = new DateTime(2000, 1, 1),
+                Estado = "activo",
+                Especialidad = "Administrador"
+            });
+
+            modelBuilder.Entity<Usuario>().HasData(new
+            {
+                IdUsuario = 1,
+                IdPersona = 1,
+                NombreUsuario = "admin",
+                Clave = "100000.4uvRpU0wa/QMbwBk3j9KVw==.3R4HkrQp2yVzE/gVZ1Ah24Pcd2IWeBNbwkOimRtx6aU=",
+                Estado = "activo",
+                IntentosFallidos = 0,
+                PreguntaSeguridad = "¿Cuál es tu comida favorita?",
+                RespuestaSeguridadHash = "100000.kESgVpXzptVDIk65q4lo0w==.9zFXADSlOndC/igsrxTKhiGfWubSxlAKtqA4z52luZ0="
+            });
         }
     }
 }

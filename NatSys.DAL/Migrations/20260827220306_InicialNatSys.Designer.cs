@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NatSys.DAL;
 
@@ -11,9 +12,11 @@ using NatSys.DAL;
 namespace NatSys.DAL.Migrations
 {
     [DbContext(typeof(NatSysDbContext))]
-    partial class NatSysDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260827220306_InicialNatSys")]
+    partial class InicialNatSys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -400,7 +403,7 @@ namespace NatSys.DAL.Migrations
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PreguntaSeguridad")
                         .IsRequired()
@@ -417,23 +420,7 @@ namespace NatSys.DAL.Migrations
 
                     b.HasIndex("IdPersona");
 
-                    b.HasIndex("NombreUsuario")
-                        .IsUnique();
-
                     b.ToTable("Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            IdUsuario = 1,
-                            Clave = "100000.4uvRpU0wa/QMbwBk3j9KVw==.3R4HkrQp2yVzE/gVZ1Ah24Pcd2IWeBNbwkOimRtx6aU=",
-                            Estado = "activo",
-                            IdPersona = 1,
-                            IntentosFallidos = 0,
-                            NombreUsuario = "admin",
-                            PreguntaSeguridad = "¿Cuál es tu comida favorita?",
-                            RespuestaSeguridadHash = "100000.kESgVpXzptVDIk65q4lo0w==.9zFXADSlOndC/igsrxTKhiGfWubSxlAKtqA4z52luZ0="
-                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Atleta", b =>
@@ -464,19 +451,6 @@ namespace NatSys.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Entrenadores");
-
-                    b.HasData(
-                        new
-                        {
-                            IdPersona = 1,
-                            Apellido = "Sistema",
-                            Email = "admin@natsys.local",
-                            FechaNacimiento = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Admin",
-                            Telefono = "",
-                            Especialidad = "Administrador",
-                            Estado = "activo"
-                        });
                 });
 
             modelBuilder.Entity("AtletaPrueba", b =>

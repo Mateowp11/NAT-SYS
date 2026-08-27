@@ -17,13 +17,9 @@ namespace NatSys.UI
             {
                 var sesion = GestorSeguridad.GetInstancia().IniciarSesion(txtUsuario.Text, txtClave.Text);
 
-                // TODO: reemplazar este mensaje por la apertura real del
-                // menu principal cuando lo armemos: FrmMenuPrincipal(sesion)
-                MessageBox.Show(
-                    $"Sesión iniciada correctamente.\nId de sesión: {sesion.IdSesion}",
-                    "Bienvenido/a",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                var frmMenu = new frmMenuPrincipal(sesion);
+                frmMenu.Show();
+                this.Hide();
             }
             catch (CuentaBloqueadaException ex)
             {

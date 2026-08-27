@@ -22,6 +22,7 @@ namespace NatSys.UI
             GestorAtleta.Inicializar(connectionString);
             MotorPasajes.Inicializar(connectionString);
 
+
             ApplicationConfiguration.Initialize();
             Application.Run(new frmLogin());
         }
