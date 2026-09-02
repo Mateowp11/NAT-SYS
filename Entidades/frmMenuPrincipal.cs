@@ -19,7 +19,8 @@ namespace NatSys.UI
         // TODO: reemplazar por new FrmAtletas().Show() cuando armemos esa pantalla
         private void btnGestorAtletas_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+            var frm = new frmAtletas();
+            frm.ShowDialog();
         }
 
         // TODO: reemplazar por new FrmTorneos().Show()
