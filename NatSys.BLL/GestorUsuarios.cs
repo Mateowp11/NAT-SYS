@@ -70,6 +70,53 @@ namespace NatSys.BLL
             _usuarioDAL.CrearUsuario(usuario, idsGruposIniciales);
         }
 
+        // Crea un Entrenador nuevo junto con su Usuario, para cuando no
+        // hay un Atleta existente al que asignarle el acceso.
+        public void AgregarUsuarioEntrenador(
+            string nombre,
+            string apellido,
+            string especialidad,
+            string nombreUsuario,
+            string claveInicial,
+            string preguntaSeguridad,
+            string respuestaSeguridad)
+        {
+            if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellido))
+                throw new ArgumentException("El nombre y el apellido son obligatorios.");
+
+            if (string.IsNullOrWhiteSpace(nombreUsuario))
+                throw new ArgumentException("El nombre de usuario es obligatorio.");
+
+            if (_usuarioDAL.ObtenerPorNombreUsuario(nombreUsuario) != null)
+                throw new ArgumentException("Ya existe un usuario con ese nombre.");
+
+            if (!PasswordHasher.CumpleRequisitos(claveInicial, out string mensajeError))
+                throw new ArgumentException(mensajeError);
+
+            var entrenador = new Entrenador
+            {
+                Nombre = nombre,
+                Apellido = apellido,
+                Especialidad = especialidad,
+                Estado = "activo"
+            };
+
+            var usuario = new Usuario
+            {
+                NombreUsuario = nombreUsuario,
+                Clave = PasswordHasher.HashPassword(claveInicial),
+                Estado = "activo",
+                IntentosFallidos = 0,
+                PreguntaSeguridad = preguntaSeguridad,
+                RespuestaSeguridadHash = PasswordHasher.HashPassword(
+                    respuestaSeguridad.Trim().ToLowerInvariant())
+            };
+
+            _usuarioDAL.CrearEntrenadorConUsuario(entrenador, usuario);
+        }
+
+        public List<Atleta> ObtenerAtletasSinUsuario() => _usuarioDAL.ObtenerAtletasSinUsuario();
+
         public void ModificarUsuario(int idUsuario, string nombreUsuario, string estado)
         {
             if (string.IsNullOrWhiteSpace(nombreUsuario))

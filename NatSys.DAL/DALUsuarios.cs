@@ -1,4 +1,4 @@
-﻿
+﻿// Proyecto: NatSys.DAL
 
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,34 @@ namespace NatSys.DAL
             return contexto.Usuarios
                 .Include(u => u.Persona)
                 .Include(u => u.Grupos)
+                .AsNoTracking()
+                .ToList();
+        }
+
+        // Crea un Entrenador nuevo Y su Usuario en el mismo paso - para
+        // cuando no hay ningun Atleta existente al que asignarle el login
+        // (por ejemplo, el propio entrenador del club, o un ayudante).
+        public void CrearEntrenadorConUsuario(Entrenador entrenador, Usuario usuario)
+        {
+            using var contexto = new NatSysDbContext(_connectionString);
+
+            contexto.Entrenadores.Add(entrenador);
+            contexto.SaveChanges(); // aca EF ya genero el IdPersona
+
+            usuario.IdPersona = entrenador.IdPersona;
+            contexto.Usuarios.Add(usuario);
+            contexto.SaveChanges();
+        }
+
+        // Atletas que todavia no tienen un Usuario asociado - para elegir
+        // a quien darle acceso al sistema desde la pantalla de alta.
+        public List<Atleta> ObtenerAtletasSinUsuario()
+        {
+            using var contexto = new NatSysDbContext(_connectionString);
+            var idsConUsuario = contexto.Usuarios.Select(u => u.IdPersona).ToList();
+
+            return contexto.Atletas
+                .Where(a => !idsConUsuario.Contains(a.IdPersona))
                 .AsNoTracking()
                 .ToList();
         }

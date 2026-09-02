@@ -16,7 +16,7 @@ namespace NatSys.UI
             lblBienvenida.Text = $"Bienvenido/a, {_sesion.Usuario?.Persona?.GetNombreCompleto()}";
         }
 
-        // TODO: reemplazar por new FrmAtletas().Show() cuando armemos esa pantalla
+        // Abre la gestion de atletas
         private void btnGestorAtletas_Click(object sender, EventArgs e)
         {
             var frm = new frmAtletas();
@@ -45,6 +45,12 @@ namespace NatSys.UI
         private void btnReportes_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+        }
+
+        private void btnGestorUsuarios_Click(object sender, EventArgs e)
+        {
+            var frm = new frmUsuarios();
+            frm.ShowDialog();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

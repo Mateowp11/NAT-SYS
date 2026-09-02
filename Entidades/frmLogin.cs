@@ -33,10 +33,8 @@ namespace NatSys.UI
 
         private void btnOlvideClave_Click(object sender, EventArgs e)
         {
-            // TODO: abrir FrmRecuperarClave (usa
-            // GestorSeguridad.ObtenerPreguntaSeguridad / RecuperarContraseña)
-            // cuando armemos esa pantalla.
-            MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+            var frm = new frmRecuperarClave();
+            frm.ShowDialog();
         }
     }
 }
