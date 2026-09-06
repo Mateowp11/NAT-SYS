@@ -86,11 +86,31 @@ namespace NatSys.DAL
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(u => u.Grupos)
-                .WithMany(g => g.Usuarios);
+                .WithMany(g => g.Usuarios)
+                .UsingEntity(j => j.HasData(
+                    // Usuario admin (IdUsuario=1) queda en el grupo Administradores (IdGrupo=1)
+                    new { GruposIdGrupo = 1, UsuariosIdUsuario = 1 }
+                ));
 
             modelBuilder.Entity<Grupo>()
                 .HasMany(g => g.Permisos)
-                .WithMany(p => p.Grupos);
+                .WithMany(p => p.Grupos)
+                .UsingEntity(j => j.HasData(
+                    // Administradores (IdGrupo=1): todos los permisos
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 1 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 2 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 3 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 4 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 5 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 6 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 7 },
+                    // Entrenadores (IdGrupo=2): todo menos Usuarios y Grupos
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 1 },
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 2 },
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 3 },
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 4 },
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 5 }
+                ));
 
             modelBuilder.Entity<Sesion>()
                 .HasOne(s => s.Usuario)
@@ -199,6 +219,28 @@ namespace NatSys.DAL
                 PreguntaSeguridad = "¿Cuál es tu comida favorita?",
                 RespuestaSeguridadHash = "100000.kESgVpXzptVDIk65q4lo0w==.9zFXADSlOndC/igsrxTKhiGfWubSxlAKtqA4z52luZ0="
             });
+
+            // ---------- Permisos y Grupos de fabrica ----------
+            //
+            // Un permiso por cada pantalla de gestion. El nombre es lo que
+            // usa GestorSeguridad.VerificarPermiso(usuario, "NOMBRE") para
+            // decidir si habilitar o no un boton/pantalla.
+            modelBuilder.Entity<Permiso>().HasData(
+                new Permiso { IdPermiso = 1, Nombre = "GESTIONAR_ATLETAS", Modulo = "Atletas", Accion = "Gestionar" },
+                new Permiso { IdPermiso = 2, Nombre = "GESTIONAR_TORNEOS", Modulo = "Torneos", Accion = "Gestionar" },
+                new Permiso { IdPermiso = 3, Nombre = "GESTIONAR_MARCAS", Modulo = "Marcas", Accion = "Gestionar" },
+                new Permiso { IdPermiso = 4, Nombre = "CALCULAR_PASAJES", Modulo = "Pasajes", Accion = "Calcular" },
+                new Permiso { IdPermiso = 5, Nombre = "VER_REPORTES", Modulo = "Reportes", Accion = "Ver" },
+                new Permiso { IdPermiso = 6, Nombre = "GESTIONAR_USUARIOS", Modulo = "Usuarios", Accion = "Gestionar" },
+                new Permiso { IdPermiso = 7, Nombre = "GESTIONAR_GRUPOS", Modulo = "Grupos", Accion = "Gestionar" }
+            );
+
+            // Administradores: acceso total. Entrenadores: todo menos
+            // Usuarios y Grupos (eso queda exclusivo del administrador).
+            modelBuilder.Entity<Grupo>().HasData(
+                new Grupo { IdGrupo = 1, Nombre = "Administradores", Descripcion = "Acceso total al sistema", Estado = "activo" },
+                new Grupo { IdGrupo = 2, Nombre = "Entrenadores", Descripcion = "Gestion operativa del equipo", Estado = "activo" }
+            );
         }
     }
 }

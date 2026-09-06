@@ -26,6 +26,7 @@
             this.btnCalcularPasajes = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnGestorUsuarios = new System.Windows.Forms.Button();
+            this.btnGestorGrupos = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.SuspendLayout();
             //
@@ -110,7 +111,7 @@
             //
             // btnGestorUsuarios
             //
-            this.btnGestorUsuarios.Location = new System.Drawing.Point(240, 250);
+            this.btnGestorUsuarios.Location = new System.Drawing.Point(165, 250);
             this.btnGestorUsuarios.Name = "btnGestorUsuarios";
             this.btnGestorUsuarios.Size = new System.Drawing.Size(150, 35);
             this.btnGestorUsuarios.TabIndex = 8;
@@ -118,12 +119,22 @@
             this.btnGestorUsuarios.UseVisualStyleBackColor = true;
             this.btnGestorUsuarios.Click += new System.EventHandler(this.btnGestorUsuarios_Click);
             //
+            // btnGestorGrupos
+            //
+            this.btnGestorGrupos.Location = new System.Drawing.Point(330, 250);
+            this.btnGestorGrupos.Name = "btnGestorGrupos";
+            this.btnGestorGrupos.Size = new System.Drawing.Size(140, 35);
+            this.btnGestorGrupos.TabIndex = 9;
+            this.btnGestorGrupos.Text = "Gestión de grupos";
+            this.btnGestorGrupos.UseVisualStyleBackColor = true;
+            this.btnGestorGrupos.Click += new System.EventHandler(this.btnGestorGrupos_Click);
+            //
             // btnSalir
             //
-            this.btnSalir.Location = new System.Drawing.Point(410, 250);
+            this.btnSalir.Location = new System.Drawing.Point(485, 250);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(100, 35);
-            this.btnSalir.TabIndex = 9;
+            this.btnSalir.TabIndex = 10;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
@@ -134,6 +145,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 320);
             this.Controls.Add(this.btnSalir);
+            this.Controls.Add(this.btnGestorGrupos);
             this.Controls.Add(this.btnGestorUsuarios);
             this.Controls.Add(this.btnReportes);
             this.Controls.Add(this.btnCalcularPasajes);
@@ -162,6 +174,7 @@
         private System.Windows.Forms.Button btnCalcularPasajes;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.Button btnGestorUsuarios;
+        private System.Windows.Forms.Button btnGestorGrupos;
         private System.Windows.Forms.Button btnSalir;
     }
 }

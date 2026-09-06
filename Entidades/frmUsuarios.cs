@@ -1,9 +1,7 @@
 ﻿// Proyecto: NatSys.UI
 
-using NatSys.BLL;
-
-using NatSys.DAL;
 using System.Linq;
+using NatSys.BLL;
 
 namespace NatSys.UI
 {
@@ -40,6 +38,21 @@ namespace NatSys.UI
             {
                 CargarUsuarios();
             }
+        }
+
+        private void btnAsignarGrupo_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná un usuario de la lista.", "Aviso");
+                return;
+            }
+
+            int idUsuario = (int)dgvUsuarios.CurrentRow.Cells["Id"].Value;
+            string nombreUsuario = (string)dgvUsuarios.CurrentRow.Cells["NombreUsuario"].Value;
+
+            var frmGrupo = new frmAsignarGrupoUsuario(idUsuario, nombreUsuario);
+            frmGrupo.ShowDialog();
         }
 
         private void btnResetearClave_Click(object sender, EventArgs e)

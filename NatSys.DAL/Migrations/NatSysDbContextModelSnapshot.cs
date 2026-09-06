@@ -50,6 +50,68 @@ namespace NatSys.DAL.Migrations
                     b.HasIndex("PermisosIdPermiso");
 
                     b.ToTable("GrupoPermiso");
+
+                    b.HasData(
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 1
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 2
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 3
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 4
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 5
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 6
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 7
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 1
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 2
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 3
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 4
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 5
+                        });
                 });
 
             modelBuilder.Entity("GrupoUsuario", b =>
@@ -65,6 +127,13 @@ namespace NatSys.DAL.Migrations
                     b.HasIndex("UsuariosIdUsuario");
 
                     b.ToTable("GrupoUsuario");
+
+                    b.HasData(
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            UsuariosIdUsuario = 1
+                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Estilo", b =>
@@ -116,6 +185,22 @@ namespace NatSys.DAL.Migrations
                     b.HasKey("IdGrupo");
 
                     b.ToTable("Grupos");
+
+                    b.HasData(
+                        new
+                        {
+                            IdGrupo = 1,
+                            Descripcion = "Acceso total al sistema",
+                            Estado = "activo",
+                            Nombre = "Administradores"
+                        },
+                        new
+                        {
+                            IdGrupo = 2,
+                            Descripcion = "Gestion operativa del equipo",
+                            Estado = "activo",
+                            Nombre = "Entrenadores"
+                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Marca", b =>
@@ -214,6 +299,57 @@ namespace NatSys.DAL.Migrations
                     b.HasKey("IdPermiso");
 
                     b.ToTable("Permisos");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPermiso = 1,
+                            Accion = "Gestionar",
+                            Modulo = "Atletas",
+                            Nombre = "GESTIONAR_ATLETAS"
+                        },
+                        new
+                        {
+                            IdPermiso = 2,
+                            Accion = "Gestionar",
+                            Modulo = "Torneos",
+                            Nombre = "GESTIONAR_TORNEOS"
+                        },
+                        new
+                        {
+                            IdPermiso = 3,
+                            Accion = "Gestionar",
+                            Modulo = "Marcas",
+                            Nombre = "GESTIONAR_MARCAS"
+                        },
+                        new
+                        {
+                            IdPermiso = 4,
+                            Accion = "Calcular",
+                            Modulo = "Pasajes",
+                            Nombre = "CALCULAR_PASAJES"
+                        },
+                        new
+                        {
+                            IdPermiso = 5,
+                            Accion = "Ver",
+                            Modulo = "Reportes",
+                            Nombre = "VER_REPORTES"
+                        },
+                        new
+                        {
+                            IdPermiso = 6,
+                            Accion = "Gestionar",
+                            Modulo = "Usuarios",
+                            Nombre = "GESTIONAR_USUARIOS"
+                        },
+                        new
+                        {
+                            IdPermiso = 7,
+                            Accion = "Gestionar",
+                            Modulo = "Grupos",
+                            Nombre = "GESTIONAR_GRUPOS"
+                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Persona", b =>

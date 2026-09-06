@@ -14,6 +14,29 @@ namespace NatSys.UI
             InitializeComponent();
             _sesion = sesion;
             lblBienvenida.Text = $"Bienvenido/a, {_sesion.Usuario?.Persona?.GetNombreCompleto()}";
+
+            AplicarPermisosPorRol();
+        }
+
+        // Restriccion por tipo de Persona (Atleta no gestiona nada) MAS
+        // el permiso especifico para Usuarios/Grupos - eso ya no depende
+        // de ser Entrenador, sino de pertenecer al grupo Administradores.
+        private void AplicarPermisosPorRol()
+        {
+            bool esEntrenador = _sesion.Usuario?.Persona is Entrenador;
+
+            btnGestorTorneos.Enabled = esEntrenador;
+            btnGestorAtletas.Enabled = esEntrenador;
+            btnGestorMarcas.Enabled = esEntrenador;
+            btnCalcularPasajes.Enabled = esEntrenador;
+
+            btnGestorUsuarios.Enabled = esEntrenador
+                && GestorSeguridad.GetInstancia().VerificarPermiso(_sesion.Usuario, "GESTIONAR_USUARIOS");
+
+            btnGestorGrupos.Enabled = esEntrenador
+                && GestorSeguridad.GetInstancia().VerificarPermiso(_sesion.Usuario, "GESTIONAR_GRUPOS");
+            // btnReportes queda habilitado para todos: un atleta deberia
+            // poder ver su propia evolucion cuando armemos esa pantalla.
         }
 
         // Abre la gestion de atletas
@@ -23,10 +46,10 @@ namespace NatSys.UI
             frm.ShowDialog();
         }
 
-        // TODO: reemplazar por new FrmTorneos().Show()
         private void btnGestorTorneos_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+            var frm = new frmTorneos();
+            frm.ShowDialog();
         }
 
         // TODO: reemplazar por new FrmMarcas().Show()
@@ -50,6 +73,12 @@ namespace NatSys.UI
         private void btnGestorUsuarios_Click(object sender, EventArgs e)
         {
             var frm = new frmUsuarios();
+            frm.ShowDialog();
+        }
+
+        private void btnGestorGrupos_Click(object sender, EventArgs e)
+        {
+            var frm = new frmGrupos();
             frm.ShowDialog();
         }
 

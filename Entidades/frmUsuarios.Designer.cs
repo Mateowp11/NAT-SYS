@@ -19,6 +19,7 @@
         {
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.btnNuevo = new System.Windows.Forms.Button();
+            this.btnAsignarGrupo = new System.Windows.Forms.Button();
             this.btnResetearClave = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
@@ -44,48 +45,58 @@
             //
             this.btnNuevo.Location = new System.Drawing.Point(20, 335);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(110, 35);
+            this.btnNuevo.Size = new System.Drawing.Size(105, 35);
             this.btnNuevo.TabIndex = 1;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             //
+            // btnAsignarGrupo
+            //
+            this.btnAsignarGrupo.Location = new System.Drawing.Point(130, 335);
+            this.btnAsignarGrupo.Name = "btnAsignarGrupo";
+            this.btnAsignarGrupo.Size = new System.Drawing.Size(105, 35);
+            this.btnAsignarGrupo.TabIndex = 2;
+            this.btnAsignarGrupo.Text = "Asignar grupo";
+            this.btnAsignarGrupo.UseVisualStyleBackColor = true;
+            this.btnAsignarGrupo.Click += new System.EventHandler(this.btnAsignarGrupo_Click);
+            //
             // btnResetearClave
             //
-            this.btnResetearClave.Location = new System.Drawing.Point(140, 335);
+            this.btnResetearClave.Location = new System.Drawing.Point(240, 335);
             this.btnResetearClave.Name = "btnResetearClave";
-            this.btnResetearClave.Size = new System.Drawing.Size(110, 35);
-            this.btnResetearClave.TabIndex = 2;
+            this.btnResetearClave.Size = new System.Drawing.Size(105, 35);
+            this.btnResetearClave.TabIndex = 3;
             this.btnResetearClave.Text = "Resetear clave";
             this.btnResetearClave.UseVisualStyleBackColor = true;
             this.btnResetearClave.Click += new System.EventHandler(this.btnResetearClave_Click);
             //
             // btnEliminar
             //
-            this.btnEliminar.Location = new System.Drawing.Point(260, 335);
+            this.btnEliminar.Location = new System.Drawing.Point(350, 335);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(110, 35);
-            this.btnEliminar.TabIndex = 3;
+            this.btnEliminar.Size = new System.Drawing.Size(105, 35);
+            this.btnEliminar.TabIndex = 4;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             //
             // btnActualizar
             //
-            this.btnActualizar.Location = new System.Drawing.Point(380, 335);
+            this.btnActualizar.Location = new System.Drawing.Point(460, 335);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(110, 35);
-            this.btnActualizar.TabIndex = 4;
+            this.btnActualizar.Size = new System.Drawing.Size(105, 35);
+            this.btnActualizar.TabIndex = 5;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = true;
             this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             //
             // btnVolver
             //
-            this.btnVolver.Location = new System.Drawing.Point(560, 335);
+            this.btnVolver.Location = new System.Drawing.Point(570, 335);
             this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(110, 35);
-            this.btnVolver.TabIndex = 5;
+            this.btnVolver.Size = new System.Drawing.Size(105, 35);
+            this.btnVolver.TabIndex = 6;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
@@ -99,6 +110,7 @@
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnResetearClave);
+            this.Controls.Add(this.btnAsignarGrupo);
             this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.dgvUsuarios);
             this.MaximizeBox = false;
@@ -113,6 +125,7 @@
 
         private System.Windows.Forms.DataGridView dgvUsuarios;
         private System.Windows.Forms.Button btnNuevo;
+        private System.Windows.Forms.Button btnAsignarGrupo;
         private System.Windows.Forms.Button btnResetearClave;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnActualizar;
