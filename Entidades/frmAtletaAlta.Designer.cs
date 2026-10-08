@@ -25,6 +25,8 @@
             this.dtpFechaNacimiento = new System.Windows.Forms.DateTimePicker();
             this.lblCategoria = new System.Windows.Forms.Label();
             this.txtCategoria = new System.Windows.Forms.TextBox();
+            this.lblPruebas = new System.Windows.Forms.Label();
+            this.clbPruebas = new System.Windows.Forms.CheckedListBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -95,9 +97,26 @@
             this.txtCategoria.Size = new System.Drawing.Size(170, 23);
             this.txtCategoria.TabIndex = 7;
             //
+            // lblPruebas
+            //
+            this.lblPruebas.AutoSize = true;
+            this.lblPruebas.Location = new System.Drawing.Point(20, 163);
+            this.lblPruebas.Name = "lblPruebas";
+            this.lblPruebas.Size = new System.Drawing.Size(120, 15);
+            this.lblPruebas.TabIndex = 10;
+            this.lblPruebas.Text = "Pruebas principales:";
+            //
+            // clbPruebas
+            //
+            this.clbPruebas.CheckOnClick = true;
+            this.clbPruebas.Location = new System.Drawing.Point(20, 183);
+            this.clbPruebas.Name = "clbPruebas";
+            this.clbPruebas.Size = new System.Drawing.Size(290, 184);
+            this.clbPruebas.TabIndex = 11;
+            //
             // btnGuardar
             //
-            this.btnGuardar.Location = new System.Drawing.Point(60, 175);
+            this.btnGuardar.Location = new System.Drawing.Point(60, 385);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(100, 32);
             this.btnGuardar.TabIndex = 8;
@@ -107,7 +126,7 @@
             //
             // btnCancelar
             //
-            this.btnCancelar.Location = new System.Drawing.Point(175, 175);
+            this.btnCancelar.Location = new System.Drawing.Point(175, 385);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 32);
             this.btnCancelar.TabIndex = 9;
@@ -121,8 +140,10 @@
             this.CancelButton = this.btnCancelar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 230);
+            this.ClientSize = new System.Drawing.Size(340, 435);
             this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.clbPruebas);
+            this.Controls.Add(this.lblPruebas);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtCategoria);
             this.Controls.Add(this.lblCategoria);
@@ -152,6 +173,8 @@
         private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.TextBox txtCategoria;
+        private System.Windows.Forms.Label lblPruebas;
+        private System.Windows.Forms.CheckedListBox clbPruebas;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
     }

@@ -160,6 +160,48 @@ namespace NatSys.DAL.Migrations
                     b.HasKey("IdEstilo");
 
                     b.ToTable("Estilos");
+
+                    b.HasData(
+                        new
+                        {
+                            IdEstilo = 1,
+                            CoefFatigaFinal = 1.00m,
+                            CoefFatigaInicial = 0.97m,
+                            CoefFatigaMedio = 1.05m,
+                            Nombre = "Crol"
+                        },
+                        new
+                        {
+                            IdEstilo = 2,
+                            CoefFatigaFinal = 1.01m,
+                            CoefFatigaInicial = 0.97m,
+                            CoefFatigaMedio = 1.07m,
+                            Nombre = "Espalda"
+                        },
+                        new
+                        {
+                            IdEstilo = 3,
+                            CoefFatigaFinal = 1.02m,
+                            CoefFatigaInicial = 0.96m,
+                            CoefFatigaMedio = 1.09m,
+                            Nombre = "Pecho"
+                        },
+                        new
+                        {
+                            IdEstilo = 4,
+                            CoefFatigaFinal = 1.04m,
+                            CoefFatigaInicial = 0.95m,
+                            CoefFatigaMedio = 1.10m,
+                            Nombre = "Mariposa"
+                        },
+                        new
+                        {
+                            IdEstilo = 5,
+                            CoefFatigaFinal = 1.00m,
+                            CoefFatigaInicial = 1.00m,
+                            CoefFatigaMedio = 1.00m,
+                            Nombre = "Combinado"
+                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Grupo", b =>
@@ -449,6 +491,134 @@ namespace NatSys.DAL.Migrations
                     b.HasIndex("IdEstilo");
 
                     b.ToTable("Pruebas");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPrueba = 1,
+                            Distancia = 50,
+                            IdEstilo = 1,
+                            Nombre = "50 Crol"
+                        },
+                        new
+                        {
+                            IdPrueba = 2,
+                            Distancia = 100,
+                            IdEstilo = 1,
+                            Nombre = "100 Crol"
+                        },
+                        new
+                        {
+                            IdPrueba = 3,
+                            Distancia = 200,
+                            IdEstilo = 1,
+                            Nombre = "200 Crol"
+                        },
+                        new
+                        {
+                            IdPrueba = 4,
+                            Distancia = 400,
+                            IdEstilo = 1,
+                            Nombre = "400 Crol"
+                        },
+                        new
+                        {
+                            IdPrueba = 5,
+                            Distancia = 800,
+                            IdEstilo = 1,
+                            Nombre = "800 Crol"
+                        },
+                        new
+                        {
+                            IdPrueba = 6,
+                            Distancia = 1500,
+                            IdEstilo = 1,
+                            Nombre = "1500 Crol"
+                        },
+                        new
+                        {
+                            IdPrueba = 7,
+                            Distancia = 50,
+                            IdEstilo = 2,
+                            Nombre = "50 Espalda"
+                        },
+                        new
+                        {
+                            IdPrueba = 8,
+                            Distancia = 100,
+                            IdEstilo = 2,
+                            Nombre = "100 Espalda"
+                        },
+                        new
+                        {
+                            IdPrueba = 9,
+                            Distancia = 200,
+                            IdEstilo = 2,
+                            Nombre = "200 Espalda"
+                        },
+                        new
+                        {
+                            IdPrueba = 10,
+                            Distancia = 50,
+                            IdEstilo = 3,
+                            Nombre = "50 Pecho"
+                        },
+                        new
+                        {
+                            IdPrueba = 11,
+                            Distancia = 100,
+                            IdEstilo = 3,
+                            Nombre = "100 Pecho"
+                        },
+                        new
+                        {
+                            IdPrueba = 12,
+                            Distancia = 200,
+                            IdEstilo = 3,
+                            Nombre = "200 Pecho"
+                        },
+                        new
+                        {
+                            IdPrueba = 13,
+                            Distancia = 50,
+                            IdEstilo = 4,
+                            Nombre = "50 Mariposa"
+                        },
+                        new
+                        {
+                            IdPrueba = 14,
+                            Distancia = 100,
+                            IdEstilo = 4,
+                            Nombre = "100 Mariposa"
+                        },
+                        new
+                        {
+                            IdPrueba = 15,
+                            Distancia = 200,
+                            IdEstilo = 4,
+                            Nombre = "200 Mariposa"
+                        },
+                        new
+                        {
+                            IdPrueba = 16,
+                            Distancia = 100,
+                            IdEstilo = 5,
+                            Nombre = "100 Combinado"
+                        },
+                        new
+                        {
+                            IdPrueba = 17,
+                            Distancia = 200,
+                            IdEstilo = 5,
+                            Nombre = "200 Combinado"
+                        },
+                        new
+                        {
+                            IdPrueba = 18,
+                            Distancia = 400,
+                            IdEstilo = 5,
+                            Nombre = "400 Combinado"
+                        });
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Sesion", b =>

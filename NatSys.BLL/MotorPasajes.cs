@@ -17,7 +17,11 @@ namespace NatSys.BLL
 {
     public class MotorPasajes
     {
-        private static MotorPasajes _instancia;
+        private static MotorPasajes? _instancia;
+
+        // Un solo texto para todos los errores de formato de tiempo
+        public const string MensajeFormatoTiempo =
+            "El tiempo debe tener el formato ss.cc (por ejemplo 28.50) o mm:ss.cc (por ejemplo 01:05.32).";
         private readonly DALPlanesPasaje _planDAL;
 
         // Estrategias disponibles (patron Strategy). La eleccion depende de
@@ -46,15 +50,24 @@ namespace NatSys.BLL
 
         // ---------- Formato y conversion de tiempos ----------
 
-        // Formato esperado: mm:ss.cc (CU-01, regla de negocio)
+        // Se aceptan dos formatos:
+        //   mm:ss.cc  ->  01:05.32  (los segundos van de 00 a 59)
+        //   ss.cc     ->  28.50     (para tiempos de menos de un minuto)
+        // El "|" del patron significa "o": o hay minutos y segundos, o
+        // hay solo segundos. En los dos casos terminan en .cc
         public bool ValidarFormatoTiempo(string tiempo)
         {
             if (string.IsNullOrWhiteSpace(tiempo)) return false;
-            return Regex.IsMatch(tiempo, @"^\d{1,2}:\d{2}\.\d{2}$");
+            return Regex.IsMatch(tiempo, @"^(\d{1,2}:[0-5]\d|[0-5]?\d)\.\d{2}$");
         }
 
         public decimal ConvertirASegundos(string tiempo)
         {
+            // "28.50" no tiene minutos: le agregamos "0:" adelante y queda
+            // "0:28.50", asi se procesa igual que el formato largo
+            if (!tiempo.Contains(':'))
+                tiempo = "0:" + tiempo;
+
             var partes = tiempo.Split(':', '.');
             decimal minutos = decimal.Parse(partes[0], CultureInfo.InvariantCulture);
             decimal segundos = decimal.Parse(partes[1], CultureInfo.InvariantCulture);
@@ -83,12 +96,29 @@ namespace NatSys.BLL
             return $"{minutos:00}:{segundos:00}.{centesimas:00}";
         }
 
+        // En la base los tiempos se guardan SIEMPRE como mm:ss.cc (asi
+        // ordenarlos o compararlos como texto no falla). Este metodo es
+        // solo para mostrarlos en pantalla como los escribe un nadador:
+        //   "00:28.50" -> "28.50"      "01:05.32" -> "01:05.32"
+        public string FormatearParaMostrar(string tiempo)
+        {
+            if (!ValidarFormatoTiempo(tiempo)) return tiempo; // si viene algo raro, se muestra tal cual
+
+            decimal segundosTotales = ConvertirASegundos(tiempo);
+            if (segundosTotales >= 60)
+                return ConvertirDeSegundos(segundosTotales);
+
+            // InvariantCulture: asegura el punto decimal ("28.50") aunque
+            // Windows este configurado en español (que usaria "28,50")
+            return segundosTotales.ToString("0.00", CultureInfo.InvariantCulture);
+        }
+
         // ---------- El calculo principal ----------
 
         public List<Pasaje> CalcularPasajes(Prueba prueba, int largoPileta, string marcaObjetivo)
         {
             if (!ValidarFormatoTiempo(marcaObjetivo))
-                throw new ArgumentException("La marca objetivo debe tener el formato mm:ss.cc");
+                throw new ArgumentException(MensajeFormatoTiempo);
 
             int nroTramos = prueba.GetNroTramos(largoPileta);
             if (nroTramos <= 0)
@@ -199,6 +229,13 @@ namespace NatSys.BLL
         public PlanPasaje CrearPlanPasajes(
             Atleta atleta, Prueba prueba, Entrenador entrenador, int largoPileta, string marcaObjetivo)
         {
+            // Si la prueba es Combinado, se deriva al calculo pierna por
+            // pierna. Asi la pantalla de calculo llama SIEMPRE a este
+            // metodo, sin tener que saber que el Combinado se calcula
+            // distinto. Requiere que la Prueba venga con su Estilo cargado.
+            if (EsCombinado(prueba))
+                return CrearPlanPasajesCombinado(atleta, prueba, entrenador, largoPileta, marcaObjetivo);
+
             // Precondiciones de CU-01
             if (!atleta.EstaActivo())
                 throw new InvalidOperationException("No se puede calcular un plan para un atleta inactivo.");
@@ -213,7 +250,7 @@ namespace NatSys.BLL
                 IdAtleta = atleta.IdPersona,
                 IdPrueba = prueba.IdPrueba,
                 IdEntrenador = entrenador.IdPersona,
-                MarcaObjetivo = marcaObjetivo,
+                MarcaObjetivo = ConvertirDeSegundos(ConvertirASegundos(marcaObjetivo)), // se guarda siempre como mm:ss.cc
                 LargoPileta = largoPileta,
                 Fecha = DateTime.Now,
                 Estado = "Disponible",
@@ -229,7 +266,7 @@ namespace NatSys.BLL
         public List<PlanPasaje> ObtenerHistorial(int idAtleta, int idPrueba) =>
             _planDAL.ObtenerHistorial(idAtleta, idPrueba);
 
-        // ---------- Pruebas Combinadas (200/400) ----------
+        // ---------- Pruebas Combinadas (100/200/400) ----------
         //
         // Un Combinado no es "un estilo": son 4 piernas de estilos
         // distintos en orden fijo. Reutilizamos CalcularPasajes una vez
@@ -237,6 +274,11 @@ namespace NatSys.BLL
         // persiste) que representa solo esa pierna - asi toda la
         // diferenciacion que ya armamos (Strategy, PerfilesRitmoElite,
         // pileta larga/corta) se aplica igual dentro de cada pierna.
+
+        private bool EsCombinado(Prueba prueba)
+        {
+            return string.Equals(prueba.Estilo?.Nombre, "Combinado", StringComparison.OrdinalIgnoreCase);
+        }
 
         public PlanPasaje CrearPlanPasajesCombinado(
             Atleta atleta, Prueba pruebaCombinado, Entrenador entrenador, int largoPileta, string marcaObjetivo)
@@ -247,11 +289,18 @@ namespace NatSys.BLL
             if (!atleta.Pruebas.Any(p => p.IdPrueba == pruebaCombinado.IdPrueba))
                 throw new InvalidOperationException("El atleta no tiene esta prueba asignada en su perfil.");
 
-            if (pruebaCombinado.Distancia != 200 && pruebaCombinado.Distancia != 400)
-                throw new ArgumentException("El Combinado solo esta definido para 200 y 400 metros.");
+            int distancia = pruebaCombinado.Distancia;
+
+            if (distancia != 100 && distancia != 200 && distancia != 400)
+                throw new ArgumentException("El Combinado solo esta definido para 100, 200 y 400 metros.");
+
+            // Reglamento: el 100 Combinado solo se nada en pileta corta
+            // (25m por estilo = un largo por pierna)
+            if (distancia == 100 && largoPileta != 25)
+                throw new ArgumentException("El 100 Combinado solo existe en pileta de 25 metros.");
 
             if (!ValidarFormatoTiempo(marcaObjetivo))
-                throw new ArgumentException("La marca objetivo debe tener el formato mm:ss.cc");
+                throw new ArgumentException(MensajeFormatoTiempo);
 
             var pasajes = CalcularPasajesCombinado(pruebaCombinado.Distancia, largoPileta, marcaObjetivo);
 
@@ -260,7 +309,7 @@ namespace NatSys.BLL
                 IdAtleta = atleta.IdPersona,
                 IdPrueba = pruebaCombinado.IdPrueba,
                 IdEntrenador = entrenador.IdPersona,
-                MarcaObjetivo = marcaObjetivo,
+                MarcaObjetivo = ConvertirDeSegundos(ConvertirASegundos(marcaObjetivo)), // se guarda siempre como mm:ss.cc
                 LargoPileta = largoPileta,
                 Fecha = DateTime.Now,
                 Estado = "Disponible",

@@ -52,10 +52,10 @@ namespace NatSys.UI
             frm.ShowDialog();
         }
 
-        // TODO: reemplazar por new FrmMarcas().Show()
         private void btnGestorMarcas_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+            var frm = new frmMarcas();
+            frm.ShowDialog();
         }
 
         // TODO: reemplazar por new FrmCalcularPasajes().Show()

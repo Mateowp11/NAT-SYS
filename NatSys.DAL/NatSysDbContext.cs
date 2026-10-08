@@ -241,6 +241,56 @@ namespace NatSys.DAL
                 new Grupo { IdGrupo = 1, Nombre = "Administradores", Descripcion = "Acceso total al sistema", Estado = "activo" },
                 new Grupo { IdGrupo = 2, Nombre = "Entrenadores", Descripcion = "Gestion operativa del equipo", Estado = "activo" }
             );
+
+            // ---------- Estilos y Pruebas oficiales ----------
+            //
+            // Son fijos por reglamento (World Aquatics), por eso se cargan
+            // de fabrica en vez de tener una pantalla para gestionarlos.
+            //
+            // Los coeficientes de cada Estilo son el RESGUARDO: MotorPasajes
+            // usa primero PerfilesRitmoElite (diferenciado por estilo y
+            // largo de pileta), y solo cae a estos si no encuentra la
+            // combinacion. Por eso coinciden con los valores de pileta
+            // larga de esa tabla. Los nombres tienen que coincidir con las
+            // claves de PerfilesRitmoElite y PerfilesCombinado.
+            //
+            // Combinado lleva 1/1/1 como valor neutro: su calculo no usa
+            // estos coeficientes, se resuelve pierna por pierna.
+            modelBuilder.Entity<Estilo>().HasData(
+                new Estilo { IdEstilo = 1, Nombre = "Crol", CoefFatigaInicial = 0.97m, CoefFatigaMedio = 1.05m, CoefFatigaFinal = 1.00m },
+                new Estilo { IdEstilo = 2, Nombre = "Espalda", CoefFatigaInicial = 0.97m, CoefFatigaMedio = 1.07m, CoefFatigaFinal = 1.01m },
+                new Estilo { IdEstilo = 3, Nombre = "Pecho", CoefFatigaInicial = 0.96m, CoefFatigaMedio = 1.09m, CoefFatigaFinal = 1.02m },
+                new Estilo { IdEstilo = 4, Nombre = "Mariposa", CoefFatigaInicial = 0.95m, CoefFatigaMedio = 1.10m, CoefFatigaFinal = 1.04m },
+                new Estilo { IdEstilo = 5, Nombre = "Combinado", CoefFatigaInicial = 1.00m, CoefFatigaMedio = 1.00m, CoefFatigaFinal = 1.00m }
+            );
+
+            // Pruebas individuales oficiales. El 100 Combinado existe solo
+            // en pileta corta (25m) - MotorPasajes lo valida al calcular.
+            modelBuilder.Entity<Prueba>().HasData(
+                // Crol
+                new Prueba { IdPrueba = 1, Nombre = "50 Crol", Distancia = 50, IdEstilo = 1 },
+                new Prueba { IdPrueba = 2, Nombre = "100 Crol", Distancia = 100, IdEstilo = 1 },
+                new Prueba { IdPrueba = 3, Nombre = "200 Crol", Distancia = 200, IdEstilo = 1 },
+                new Prueba { IdPrueba = 4, Nombre = "400 Crol", Distancia = 400, IdEstilo = 1 },
+                new Prueba { IdPrueba = 5, Nombre = "800 Crol", Distancia = 800, IdEstilo = 1 },
+                new Prueba { IdPrueba = 6, Nombre = "1500 Crol", Distancia = 1500, IdEstilo = 1 },
+                // Espalda
+                new Prueba { IdPrueba = 7, Nombre = "50 Espalda", Distancia = 50, IdEstilo = 2 },
+                new Prueba { IdPrueba = 8, Nombre = "100 Espalda", Distancia = 100, IdEstilo = 2 },
+                new Prueba { IdPrueba = 9, Nombre = "200 Espalda", Distancia = 200, IdEstilo = 2 },
+                // Pecho
+                new Prueba { IdPrueba = 10, Nombre = "50 Pecho", Distancia = 50, IdEstilo = 3 },
+                new Prueba { IdPrueba = 11, Nombre = "100 Pecho", Distancia = 100, IdEstilo = 3 },
+                new Prueba { IdPrueba = 12, Nombre = "200 Pecho", Distancia = 200, IdEstilo = 3 },
+                // Mariposa
+                new Prueba { IdPrueba = 13, Nombre = "50 Mariposa", Distancia = 50, IdEstilo = 4 },
+                new Prueba { IdPrueba = 14, Nombre = "100 Mariposa", Distancia = 100, IdEstilo = 4 },
+                new Prueba { IdPrueba = 15, Nombre = "200 Mariposa", Distancia = 200, IdEstilo = 4 },
+                // Combinado
+                new Prueba { IdPrueba = 16, Nombre = "100 Combinado", Distancia = 100, IdEstilo = 5 },
+                new Prueba { IdPrueba = 17, Nombre = "200 Combinado", Distancia = 200, IdEstilo = 5 },
+                new Prueba { IdPrueba = 18, Nombre = "400 Combinado", Distancia = 400, IdEstilo = 5 }
+            );
         }
     }
 }

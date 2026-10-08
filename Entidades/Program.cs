@@ -1,4 +1,4 @@
-//// Proyecto: NatSys.UI
+// Proyecto: NatSys.UI
 
 using NatSys.BLL;
 
@@ -21,6 +21,8 @@ namespace NatSys.UI
             GestorGrupos.Inicializar(connectionString);
             GestorAtleta.Inicializar(connectionString);
             GestorTorneos.Inicializar(connectionString);
+            GestorPruebas.Inicializar(connectionString);
+            GestorMarcas.Inicializar(connectionString);
             MotorPasajes.Inicializar(connectionString);
 
             ApplicationConfiguration.Initialize();
