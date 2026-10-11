@@ -1,4 +1,4 @@
-﻿
+﻿// Proyecto: NatSys.BLL
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace NatSys.BLL
 {
     public class GestorAtleta
     {
-        private static GestorAtleta _instancia;
+        private static GestorAtleta? _instancia;
         private readonly DALAtletas _atletaDAL;
 
         private GestorAtleta(string connectionString)
@@ -35,6 +35,10 @@ namespace NatSys.BLL
         public List<Atleta> GetAtletasActivos() => _atletaDAL.ObtenerActivos();
 
         public Atleta ObtenerPorId(int idAtleta) => _atletaDAL.ObtenerPorId(idAtleta);
+
+        // CU-01 paso 4 (getPruebasAtleta en el diagrama de secuencias):
+        // solo las pruebas asignadas a ese atleta, con su Estilo cargado
+        public List<Prueba> ObtenerPruebasDeAtleta(int idAtleta) => _atletaDAL.ObtenerPruebasDeAtleta(idAtleta);
 
         // RF-02: nombre, apellido y fecha de nacimiento son obligatorios
         public void AgregarAtleta(

@@ -1,7 +1,6 @@
 ﻿// Proyecto: NatSys.UI
 
 using NatSys.BLL;
-using NatSys.DAL;
 using System.Linq;
 
 namespace NatSys.UI

@@ -47,6 +47,27 @@ namespace NatSys.DAL
                 .FirstOrDefault(a => a.IdPersona == idAtleta);
         }
 
+        // CU-01 paso 4: las pruebas asignadas a UN atleta, con su Estilo.
+        // ThenInclude = "y de cada prueba, traeme tambien su Estilo"
+        // (MotorPasajes lo necesita para elegir los coeficientes y para
+        // saber si la prueba es Combinado).
+        public List<Prueba> ObtenerPruebasDeAtleta(int idAtleta)
+        {
+            using var contexto = new NatSysDbContext(_connectionString);
+            var atleta = contexto.Atletas
+                .Include(a => a.Pruebas)
+                    .ThenInclude(p => p.Estilo)
+                .AsNoTracking()
+                .FirstOrDefault(a => a.IdPersona == idAtleta);
+
+            if (atleta == null) return new List<Prueba>();
+
+            return atleta.Pruebas
+                .OrderBy(p => p.IdEstilo)
+                .ThenBy(p => p.Distancia)
+                .ToList();
+        }
+
         // Al ser TPT, Add() inserta automaticamente en Personas Y en Atletas
         // en la misma operacion - no hace falta manejarlo a mano.
         public void Agregar(Atleta atleta, List<int> idsPruebasIniciales)

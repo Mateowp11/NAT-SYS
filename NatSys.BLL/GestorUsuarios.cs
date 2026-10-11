@@ -15,7 +15,7 @@ namespace NatSys.BLL
 {
     public class GestorUsuarios
     {
-        private static GestorUsuarios _instancia;
+        private static GestorUsuarios? _instancia;
         private readonly DALUsuarios _usuarioDAL;
 
         private GestorUsuarios(string connectionString)

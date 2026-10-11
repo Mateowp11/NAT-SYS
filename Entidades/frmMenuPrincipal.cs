@@ -58,10 +58,15 @@ namespace NatSys.UI
             frm.ShowDialog();
         }
 
-        // TODO: reemplazar por new FrmCalcularPasajes().Show()
+        // CU-01: el plan se guarda a nombre del entrenador que inicio sesion,
+        // por eso se lo pasamos a la pantalla.
         private void btnCalcularPasajes_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+            var entrenador = _sesion.Usuario?.Persona as Entrenador;
+            if (entrenador == null) return; // el boton ya esta deshabilitado para quien no es entrenador
+
+            var frm = new frmCalcularPasajes(entrenador);
+            frm.ShowDialog();
         }
 
         // TODO: reemplazar por new FrmReportes().Show()

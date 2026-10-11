@@ -21,7 +21,7 @@ namespace NatSys.BLL
 {
     public class GestorSeguridad
     {
-        private static GestorSeguridad _instancia;
+        private static GestorSeguridad? _instancia;
         private readonly DALUsuarios _usuarioDAL;
         private const int MaxIntentosFallidos = 3;
 

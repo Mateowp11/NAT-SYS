@@ -2,8 +2,9 @@
 //
 // Implementa CU-01 (Calcular plan de pasajes) completo, incluyendo la
 // logica de tu diagrama de secuencias: valida formato, calcula pasajes
-// usando la estrategia correspondiente, y guarda reemplazando el plan
-// vigente si existia uno.
+// usando la estrategia correspondiente (primero el perfil real de los
+// finalistas de Mundiales / JJOO) y guarda reemplazando el plan vigente si
+// existia uno.
 
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,9 @@ namespace NatSys.BLL
         private readonly DALPlanesPasaje _planDAL;
 
         // Estrategias disponibles (patron Strategy). La eleccion depende de
-        // si hay datos y de si la prueba es de velocidad pura o no.
+        // si hay datos reales para la prueba y, si no los hay, de si es de
+        // velocidad pura o no.
+        private readonly IEstrategiaDistribucion _estrategiaPerfilReal = new EstrategiaDistribucionPerfilReal();
         private readonly IEstrategiaDistribucion _estrategiaParabolica = new EstrategiaDistribucionEscalonada();
         private readonly IEstrategiaDistribucion _estrategiaSprint = new EstrategiaDistribucionSprint();
         private readonly IEstrategiaDistribucion _estrategiaResguardo = new EstrategiaDistribucionUniforme();
@@ -126,36 +129,45 @@ namespace NatSys.BLL
 
             decimal totalSegundos = ConvertirASegundos(marcaObjetivo);
 
-            // Primero busca en la tabla de perfiles elite (diferenciada por
-            // estilo Y largo de pileta). Si no hay dato para esa
-            // combinacion, cae a los coeficientes propios del Estilo en la
-            // base. Si tampoco hay, cae a reparto uniforme.
-            decimal[] coeficientes = PerfilesRitmoElite.ObtenerCoeficientes(prueba.Estilo.Nombre, largoPileta)
-                ?? prueba.GetCoeficientesEstilo();
+            // Eleccion de la estrategia (patron Strategy), en este orden:
+            // 1. Si hay un perfil REAL para esta prueba (parciales de los
+            //    finalistas de un Mundial / JJOO), se usa ese.
+            // 2. Si no, el modelo teorico con los coeficientes del Estilo
+            //    (Sprint para 50/100, Escalonada para 200 en adelante).
+            // 3. Si tampoco hay coeficientes, reparto uniforme.
+            decimal[]? perfilReal = PerfilesRitmoElite.ObtenerPerfil(prueba.Estilo?.Nombre ?? "", prueba.Distancia, largoPileta);
+            decimal[]? coeficientesEstilo = prueba.GetCoeficientesEstilo();
 
             IEstrategiaDistribucion estrategia;
+            decimal[] datos; // lo que recibe la estrategia elegida
 
-            if (coeficientes == null || coeficientes.Length != 3)
+            if (perfilReal != null && perfilReal.Length == nroTramos)
             {
-                // Sin datos: reparto uniforme como ultimo resguardo
+                // Caso normal: porcentajes reales de los finalistas
+                estrategia = _estrategiaPerfilReal;
+                datos = perfilReal;
+            }
+            else if (coeficientesEstilo == null || coeficientesEstilo.Length != 3)
+            {
+                // Sin datos de ningun tipo: reparto uniforme como ultimo resguardo
                 estrategia = _estrategiaResguardo;
+                datos = Array.Empty<decimal>(); // la uniforme no necesita datos
             }
             else if (prueba.Distancia <= 100)
             {
-                // Velocidad pura (50m/100m): ritmo positivo, sin
-                // recuperacion al cierre. OJO: la clasificacion es por
-                // DISTANCIA de la prueba, no por nroTramos - un 100m en
-                // pileta corta tiene los mismos 4 tramos que un 200m en
-                // pileta larga, pero son carreras completamente distintas.
+                // Modelo teorico de velocidad pura (50m/100m): el ritmo
+                // decae de forma continua, sin recuperacion al cierre.
                 estrategia = _estrategiaSprint;
+                datos = coeficientesEstilo;
             }
             else
             {
-                // 200m en adelante: patron parabolico clasico
+                // Modelo teorico para 200 m en adelante
                 estrategia = _estrategiaParabolica;
+                datos = coeficientesEstilo;
             }
 
-            List<decimal> pesos = estrategia.CalcularPesos(nroTramos, coeficientes);
+            List<decimal> pesos = estrategia.CalcularPesos(nroTramos, datos);
 
             return DistribuirTiempoPorTramos(totalSegundos, pesos, largoPileta, nroTramos);
         }
@@ -229,19 +241,17 @@ namespace NatSys.BLL
         public PlanPasaje CrearPlanPasajes(
             Atleta atleta, Prueba prueba, Entrenador entrenador, int largoPileta, string marcaObjetivo)
         {
-            // Si la prueba es Combinado, se deriva al calculo pierna por
-            // pierna. Asi la pantalla de calculo llama SIEMPRE a este
-            // metodo, sin tener que saber que el Combinado se calcula
-            // distinto. Requiere que la Prueba venga con su Estilo cargado.
-            if (EsCombinado(prueba))
-                return CrearPlanPasajesCombinado(atleta, prueba, entrenador, largoPileta, marcaObjetivo);
-
             // Precondiciones de CU-01
             if (!atleta.EstaActivo())
                 throw new InvalidOperationException("No se puede calcular un plan para un atleta inactivo.");
 
             if (!atleta.Pruebas.Any(p => p.IdPrueba == prueba.IdPrueba))
                 throw new InvalidOperationException("El atleta no tiene esta prueba asignada en su perfil.");
+
+            // El Combinado tiene reglas propias de distancia y pileta.
+            // Requiere que la Prueba venga con su Estilo cargado.
+            if (EsCombinado(prueba))
+                ValidarCombinado(prueba.Distancia, largoPileta);
 
             var pasajes = CalcularPasajes(prueba, largoPileta, marcaObjetivo);
 
@@ -268,93 +278,25 @@ namespace NatSys.BLL
 
         // ---------- Pruebas Combinadas (100/200/400) ----------
         //
-        // Un Combinado no es "un estilo": son 4 piernas de estilos
-        // distintos en orden fijo. Reutilizamos CalcularPasajes una vez
-        // por pierna, con una Prueba "temporal" en memoria (nunca se
-        // persiste) que representa solo esa pierna - asi toda la
-        // diferenciacion que ya armamos (Strategy, PerfilesRitmoElite,
-        // pileta larga/corta) se aplica igual dentro de cada pierna.
+        // El Combinado ya no necesita un calculo aparte: su perfil real
+        // (mariposa, espalda, pecho y crol en ese orden) esta en
+        // PerfilesRitmoElite como cualquier otra prueba. Solo quedan las
+        // reglas del reglamento, que se controlan antes de calcular.
 
         private bool EsCombinado(Prueba prueba)
         {
             return string.Equals(prueba.Estilo?.Nombre, "Combinado", StringComparison.OrdinalIgnoreCase);
         }
 
-        public PlanPasaje CrearPlanPasajesCombinado(
-            Atleta atleta, Prueba pruebaCombinado, Entrenador entrenador, int largoPileta, string marcaObjetivo)
+        private void ValidarCombinado(int distancia, int largoPileta)
         {
-            if (!atleta.EstaActivo())
-                throw new InvalidOperationException("No se puede calcular un plan para un atleta inactivo.");
-
-            if (!atleta.Pruebas.Any(p => p.IdPrueba == pruebaCombinado.IdPrueba))
-                throw new InvalidOperationException("El atleta no tiene esta prueba asignada en su perfil.");
-
-            int distancia = pruebaCombinado.Distancia;
-
             if (distancia != 100 && distancia != 200 && distancia != 400)
                 throw new ArgumentException("El Combinado solo esta definido para 100, 200 y 400 metros.");
 
             // Reglamento: el 100 Combinado solo se nada en pileta corta
-            // (25m por estilo = un largo por pierna)
+            // (25 m por estilo = un largo por pierna)
             if (distancia == 100 && largoPileta != 25)
                 throw new ArgumentException("El 100 Combinado solo existe en pileta de 25 metros.");
-
-            if (!ValidarFormatoTiempo(marcaObjetivo))
-                throw new ArgumentException(MensajeFormatoTiempo);
-
-            var pasajes = CalcularPasajesCombinado(pruebaCombinado.Distancia, largoPileta, marcaObjetivo);
-
-            return new PlanPasaje
-            {
-                IdAtleta = atleta.IdPersona,
-                IdPrueba = pruebaCombinado.IdPrueba,
-                IdEntrenador = entrenador.IdPersona,
-                MarcaObjetivo = ConvertirDeSegundos(ConvertirASegundos(marcaObjetivo)), // se guarda siempre como mm:ss.cc
-                LargoPileta = largoPileta,
-                Fecha = DateTime.Now,
-                Estado = "Disponible",
-                Pasajes = pasajes
-            };
-        }
-
-        public List<Pasaje> CalcularPasajesCombinado(int distanciaTotal, int largoPileta, string marcaObjetivo)
-        {
-            decimal totalSegundos = ConvertirASegundos(marcaObjetivo);
-            decimal distanciaPorPierna = distanciaTotal / 4m;
-
-            var pasajes = new List<Pasaje>();
-            decimal acumulado = 0;
-            int nroTramoGlobal = 1;
-
-            for (int i = 0; i < PerfilesCombinado.OrdenEstilos.Length; i++)
-            {
-                string nombreEstiloPierna = PerfilesCombinado.OrdenEstilos[i];
-                bool esUltimaPierna = i == PerfilesCombinado.OrdenEstilos.Length - 1;
-
-                // La ultima pierna (Crol) absorbe el redondeo, igual que
-                // hacemos con el ultimo tramo dentro de una sola prueba.
-                decimal segundosPierna = esUltimaPierna
-                    ? totalSegundos - acumulado
-                    : Math.Round(totalSegundos * PerfilesCombinado.PorcentajePorPierna[nombreEstiloPierna], 2);
-
-                acumulado += segundosPierna;
-
-                var pruebaPierna = new Prueba
-                {
-                    Distancia = (int)distanciaPorPierna,
-                    Estilo = new Estilo { Nombre = nombreEstiloPierna }
-                };
-
-                var pasajesPierna = CalcularPasajes(pruebaPierna, largoPileta, ConvertirDeSegundos(segundosPierna));
-
-                foreach (var pasaje in pasajesPierna)
-                {
-                    pasaje.NroTramo = nroTramoGlobal++;
-                    pasajes.Add(pasaje);
-                }
-            }
-
-            return pasajes;
         }
     }
 }

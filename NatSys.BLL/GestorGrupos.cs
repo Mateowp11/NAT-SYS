@@ -9,7 +9,7 @@ namespace NatSys.BLL
 {
     public class GestorGrupos
     {
-        private static GestorGrupos _instancia;
+        private static GestorGrupos? _instancia;
         private readonly DALGrupos _grupoDAL;
 
         private GestorGrupos(string connectionString)

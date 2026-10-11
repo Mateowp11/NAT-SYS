@@ -43,6 +43,25 @@ namespace NatSys.BLL
 
         public Marca? ObtenerPorId(int idMarca) => _marcaDAL.ObtenerPorId(idMarca);
 
+        // CU-01 paso 16 (getRecordPersonal en el diagrama de secuencias).
+        // Devuelve la marca que es RP del atleta en esa prueba y pileta.
+        // Si no tiene ninguna, devuelve un marcador "SV" (Sin Valor) en vez
+        // de null, igual que Atleta.ObtenerRP: la pantalla solo pregunta
+        // rp.EsSV() y no tiene que andar chequeando null.
+        public Marca ObtenerRecordPersonal(int idAtleta, int idPrueba, int largoPileta)
+        {
+            var rp = _marcaDAL.ObtenerMarcasDePrueba(idAtleta, idPrueba, largoPileta)
+                .FirstOrDefault(m => m.EsRecordPersonal);
+
+            return rp ?? new Marca
+            {
+                Tipo = "SV",
+                IdAtleta = idAtleta,
+                IdPrueba = idPrueba,
+                LargoPileta = largoPileta
+            };
+        }
+
         public void AgregarMarca(int idAtleta, string tipo, int idPrueba, int largoPileta,
                                  string tiempo, int? idTorneo, DateTime fecha)
         {

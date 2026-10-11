@@ -1,7 +1,4 @@
-﻿// Proyecto: NatSys.DAL
-// Instalar antes via NuGet: Microsoft.EntityFrameworkCore.SqlServer
-//                           Microsoft.EntityFrameworkCore.Tools
-
+﻿
 using System;
 using Microsoft.EntityFrameworkCore;
 using NatSys.Entidades;
@@ -248,14 +245,14 @@ namespace NatSys.DAL
             // de fabrica en vez de tener una pantalla para gestionarlos.
             //
             // Los coeficientes de cada Estilo son el RESGUARDO: MotorPasajes
-            // usa primero PerfilesRitmoElite (diferenciado por estilo y
-            // largo de pileta), y solo cae a estos si no encuentra la
-            // combinacion. Por eso coinciden con los valores de pileta
-            // larga de esa tabla. Los nombres tienen que coincidir con las
-            // claves de PerfilesRitmoElite y PerfilesCombinado.
+            // usa primero PerfilesRitmoElite (porcentajes reales de los
+            // finalistas de Mundiales / JJOO para cada prueba y pileta), y
+            // solo cae a estos si no hay perfil para esa combinacion. Los
+            // nombres tienen que coincidir con las claves de
+            // PerfilesRitmoElite.
             //
-            // Combinado lleva 1/1/1 como valor neutro: su calculo no usa
-            // estos coeficientes, se resuelve pierna por pierna.
+            // Combinado lleva 1/1/1 como valor neutro: todas sus distancias
+            // validas (100/200/400) tienen perfil real.
             modelBuilder.Entity<Estilo>().HasData(
                 new Estilo { IdEstilo = 1, Nombre = "Crol", CoefFatigaInicial = 0.97m, CoefFatigaMedio = 1.05m, CoefFatigaFinal = 1.00m },
                 new Estilo { IdEstilo = 2, Nombre = "Espalda", CoefFatigaInicial = 0.97m, CoefFatigaMedio = 1.07m, CoefFatigaFinal = 1.01m },
