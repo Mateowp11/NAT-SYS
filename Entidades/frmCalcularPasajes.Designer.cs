@@ -32,6 +32,7 @@
             this.lblViabilidad = new System.Windows.Forms.Label();
             this.dgvPasajes = new System.Windows.Forms.DataGridView();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnExportarPdf = new System.Windows.Forms.Button();
             this.btnDescartar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPasajes)).BeginInit();
@@ -177,17 +178,27 @@
             //
             this.btnGuardar.Location = new System.Drawing.Point(20, 505);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(110, 35);
+            this.btnGuardar.Size = new System.Drawing.Size(100, 35);
             this.btnGuardar.TabIndex = 14;
             this.btnGuardar.Text = "Guardar plan";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             //
+            // btnExportarPdf
+            //
+            this.btnExportarPdf.Location = new System.Drawing.Point(125, 505);
+            this.btnExportarPdf.Name = "btnExportarPdf";
+            this.btnExportarPdf.Size = new System.Drawing.Size(100, 35);
+            this.btnExportarPdf.TabIndex = 17;
+            this.btnExportarPdf.Text = "Exportar PDF";
+            this.btnExportarPdf.UseVisualStyleBackColor = true;
+            this.btnExportarPdf.Click += new System.EventHandler(this.btnExportarPdf_Click);
+            //
             // btnDescartar
             //
-            this.btnDescartar.Location = new System.Drawing.Point(140, 505);
+            this.btnDescartar.Location = new System.Drawing.Point(230, 505);
             this.btnDescartar.Name = "btnDescartar";
-            this.btnDescartar.Size = new System.Drawing.Size(110, 35);
+            this.btnDescartar.Size = new System.Drawing.Size(100, 35);
             this.btnDescartar.TabIndex = 15;
             this.btnDescartar.Text = "Descartar";
             this.btnDescartar.UseVisualStyleBackColor = true;
@@ -195,9 +206,9 @@
             //
             // btnVolver
             //
-            this.btnVolver.Location = new System.Drawing.Point(330, 505);
+            this.btnVolver.Location = new System.Drawing.Point(340, 505);
             this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(110, 35);
+            this.btnVolver.Size = new System.Drawing.Size(100, 35);
             this.btnVolver.TabIndex = 16;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
@@ -212,6 +223,7 @@
             this.ClientSize = new System.Drawing.Size(460, 560);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnDescartar);
+            this.Controls.Add(this.btnExportarPdf);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.dgvPasajes);
             this.Controls.Add(this.lblViabilidad);
@@ -255,6 +267,7 @@
         private System.Windows.Forms.Label lblViabilidad;
         private System.Windows.Forms.DataGridView dgvPasajes;
         private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnExportarPdf;
         private System.Windows.Forms.Button btnDescartar;
         private System.Windows.Forms.Button btnVolver;
     }

@@ -1,4 +1,5 @@
 ﻿// Proyecto: NatSys.UI
+// Proyecto: NatSys.UI
 
 using NatSys.BLL;
 using NatSys.Entidades;
@@ -69,10 +70,11 @@ namespace NatSys.UI
             frm.ShowDialog();
         }
 
-        // TODO: reemplazar por new FrmReportes().Show()
+        // RF-06: menu con los dos reportes
         private void btnReportes_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función se habilita en el próximo paso.", "Próximamente");
+            var frm = new frmReportes();
+            frm.ShowDialog();
         }
 
         private void btnGestorUsuarios_Click(object sender, EventArgs e)

@@ -24,6 +24,7 @@ namespace NatSys.UI
             GestorPruebas.Inicializar(connectionString);
             GestorMarcas.Inicializar(connectionString);
             MotorPasajes.Inicializar(connectionString);
+            GestorReportes.Inicializar(connectionString);
 
             ApplicationConfiguration.Initialize();
             Application.Run(new frmLogin());

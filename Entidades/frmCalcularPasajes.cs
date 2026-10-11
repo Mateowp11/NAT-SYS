@@ -1,14 +1,22 @@
 ﻿// Proyecto: NatSys.UI
 //
-// Pantalla de CU-01 (Calcular plan de pasajes). Sigue el diagrama de
-// secuencias: atletas activos -> pruebas del atleta -> validar formato ->
-// record personal -> calculo del motor -> mostrar -> guardar.
+// Pantalla de CU-01 (Calcular plan de pasajes).
 //
-// Toda la matematica la hace MotorPasajes (patron Strategy). Esta
-// pantalla solo junta los datos, muestra el resultado y pide guardar.
+// PATRON FACADE: esta pantalla es el "cliente" de la fachada. Ya no
+// conoce a GestorAtleta, GestorMarcas ni MotorPasajes: todo lo pide a
+// FachadaPasajes, que coordina esas clases por dentro. La pantalla solo
+// junta los datos, muestra el resultado y pide guardar.
+
+// Proyecto: NatSys.UI
+//
+// Pantalla de CU-01 (Calcular plan de pasajes).
+//
+// PATRON FACADE: esta pantalla es el "cliente" de la fachada. Ya no
+// conoce a GestorAtleta, GestorMarcas ni MotorPasajes: todo lo pide a
+// FachadaPasajes, que coordina esas clases por dentro. La pantalla solo
+// junta los datos, muestra el resultado y pide guardar.
 
 using System.Collections.Generic;
-using System.Data;
 using System.Globalization;
 using System.Linq;
 using NatSys.BLL;
@@ -18,15 +26,18 @@ namespace NatSys.UI
 {
     public partial class frmCalcularPasajes : Form
     {
+        // El unico punto de entrada a la logica de pasajes
+        private readonly FachadaPasajes _fachada = new FachadaPasajes();
+
         // El plan se guarda a nombre del entrenador que inicio sesion
         private readonly Entrenador _entrenador;
 
         private List<Atleta> _atletas = new List<Atleta>();
         private List<Prueba> _pruebasDelAtleta = new List<Prueba>();
 
-        // El ultimo plan calculado, todavia SIN guardar. Es null si no se
-        // calculo nada o si se cambio algun dato despues de calcular.
-        private PlanPasaje? _planCalculado;
+        // El ultimo calculo, todavia SIN guardar. Es null si no se calculo
+        // nada o si se cambio algun dato despues de calcular.
+        private ResultadoCalculoPasajes? _resultado;
 
         public frmCalcularPasajes(Entrenador entrenador)
         {
@@ -41,7 +52,7 @@ namespace NatSys.UI
         // CU-01 paso 2: solo atletas activos
         private void CargarAtletas()
         {
-            _atletas = GestorAtleta.GetInstancia().GetAtletasActivos();
+            _atletas = _fachada.ObtenerAtletasActivos();
             foreach (var atleta in _atletas)
                 cmbAtleta.Items.Add(new OpcionCombo(atleta.IdPersona, atleta.GetNombreCompleto()));
         }
@@ -55,7 +66,7 @@ namespace NatSys.UI
             var atleta = AtletaSeleccionado();
             if (atleta != null)
             {
-                _pruebasDelAtleta = GestorAtleta.GetInstancia().ObtenerPruebasDeAtleta(atleta.IdPersona);
+                _pruebasDelAtleta = _fachada.ObtenerPruebasDeAtleta(atleta.IdPersona);
                 foreach (var prueba in _pruebasDelAtleta)
                     cmbPrueba.Items.Add(new OpcionCombo(prueba.IdPrueba, prueba.Nombre));
 
@@ -101,14 +112,14 @@ namespace NatSys.UI
                 return;
             }
 
-            var motor = MotorPasajes.GetInstancia();
             string marcaObjetivo = txtMarcaObjetivo.Text.Trim();
             int largoPileta = int.Parse((string)cmbLargoPileta.SelectedItem!);
 
-            // CU-01 paso 8 / CA-01: si el formato esta mal, NO se calcula nada
-            if (!motor.ValidarFormatoTiempo(marcaObjetivo))
+            // Paso 15 del diagrama (validar formato en la pantalla): asi
+            // el cursor vuelve al campo para corregirlo (CA-01)
+            if (!_fachada.ValidarFormatoTiempo(marcaObjetivo))
             {
-                MessageBox.Show(MotorPasajes.MensajeFormatoTiempo, "Formato inválido",
+                MessageBox.Show(_fachada.MensajeFormatoTiempo, "Formato inválido",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMarcaObjetivo.Focus();
                 return;
@@ -116,10 +127,9 @@ namespace NatSys.UI
 
             try
             {
-                // Pasos 9 y 10: el motor verifica que el atleta este activo
-                // y tenga la prueba, elige la estrategia segun el estilo y
-                // la distancia, y reparte el tiempo en tramos.
-                _planCalculado = motor.CrearPlanPasajes(atleta, prueba, _entrenador, largoPileta, marcaObjetivo);
+                // Una sola llamada: la fachada calcula el plan, busca el RP
+                // y evalua la viabilidad
+                _resultado = _fachada.CalcularPlan(atleta, prueba, _entrenador, largoPileta, marcaObjetivo);
             }
             catch (ArgumentException ex) // ej: 100 Combinado en pileta de 50
             {
@@ -133,64 +143,30 @@ namespace NatSys.UI
             }
 
             // Paso 11: tabla de pasajes + comparativa con el RP
-            MostrarPasajes(_planCalculado);
-            MostrarComparativaRP(atleta, prueba, largoPileta, marcaObjetivo);
+            dgvPasajes.DataSource = _resultado.Filas;
+            MostrarComparativaRP(_resultado);
             btnGuardar.Enabled = true;
+            btnExportarPdf.Enabled = true;
         }
 
-        // Arma la tabla con el parcial de cada tramo y el tiempo acumulado.
-        // Usamos un DataTable: es una tabla "en memoria" con columnas y
-        // filas, que el DataGridView sabe mostrar directamente.
-        private void MostrarPasajes(PlanPasaje plan)
+        // CU-01 paso 11 + EXT-01 (advertir marca poco realista)
+        private void MostrarComparativaRP(ResultadoCalculoPasajes resultado)
         {
-            var motor = MotorPasajes.GetInstancia();
-
-            var tabla = new DataTable();
-            tabla.Columns.Add("Tramo", typeof(int));
-            tabla.Columns.Add("Metros", typeof(string));
-            tabla.Columns.Add("Parcial", typeof(string));
-            tabla.Columns.Add("Acumulado", typeof(string));
-
-            decimal segundosAcumulados = 0;
-            int metrosAcumulados = 0;
-
-            foreach (var pasaje in plan.Pasajes.OrderBy(p => p.NroTramo))
-            {
-                segundosAcumulados += motor.ConvertirASegundos(pasaje.Tiempo);
-                metrosAcumulados += pasaje.Distancia; // cada tramo mide un largo de pileta
-
-                tabla.Rows.Add(
-                    pasaje.NroTramo,
-                    metrosAcumulados + " m",
-                    motor.FormatearParaMostrar(pasaje.Tiempo),
-                    motor.FormatearParaMostrar(motor.ConvertirDeSegundos(segundosAcumulados)));
-            }
-
-            dgvPasajes.DataSource = tabla;
-        }
-
-        // CU-01 paso 11 + EXT-01 (advertir marca poco realista).
-        private void MostrarComparativaRP(Atleta atleta, Prueba prueba, int largoPileta, string marcaObjetivo)
-        {
-            var motor = MotorPasajes.GetInstancia();
-            var rp = GestorMarcas.GetInstancia().ObtenerRecordPersonal(atleta.IdPersona, prueba.IdPrueba, largoPileta);
-
             // CA-02: sin marcas previas (SV) el plan se muestra igual, pero
             // sin comparativa
-            if (rp.EsSV())
+            if (!resultado.TieneRecordPersonal)
             {
-                lblRecordPersonal.Text = $"Récord personal en pileta de {largoPileta} m: SV (sin marcas previas)";
+                lblRecordPersonal.Text = $"Récord personal en pileta de {resultado.LargoPileta} m: SV (sin marcas previas)";
                 lblViabilidad.Text = "";
                 return;
             }
 
             lblRecordPersonal.Text =
-                $"Récord personal en pileta de {largoPileta} m: {motor.FormatearParaMostrar(rp.Tiempo)} ({rp.Fecha:dd/MM/yyyy})";
+                $"Récord personal en pileta de {resultado.LargoPileta} m: {resultado.TiempoRecordPersonal} " +
+                $"({resultado.FechaRecordPersonal:dd/MM/yyyy})";
 
-            string viabilidad = motor.EvaluarViabilidad(marcaObjetivo, rp);
-
-            // Diferencia en segundos: positiva = el objetivo es mas rapido que el RP
-            decimal diferencia = motor.ConvertirASegundos(rp.Tiempo) - motor.ConvertirASegundos(marcaObjetivo);
+            // Diferencia positiva = el objetivo es mas rapido que el RP
+            decimal diferencia = resultado.DiferenciaConRP;
             string segundos = Math.Abs(diferencia).ToString("0.00", CultureInfo.InvariantCulture);
             string comparacion;
             if (diferencia > 0)
@@ -200,18 +176,18 @@ namespace NatSys.UI
             else
                 comparacion = "igual a su RP";
 
-            lblViabilidad.Text = $"Viabilidad: {viabilidad} (objetivo {comparacion})";
+            lblViabilidad.Text = $"Viabilidad: {resultado.Viabilidad} (objetivo {comparacion})";
 
             // Color segun el resultado: verde, naranja o rojo
-            if (viabilidad == "Poco realista")
+            if (resultado.EsPocoRealista)
                 lblViabilidad.ForeColor = Color.Firebrick;
-            else if (viabilidad == "Ambiciosa")
+            else if (resultado.Viabilidad == "Ambiciosa")
                 lblViabilidad.ForeColor = Color.DarkOrange;
             else
                 lblViabilidad.ForeColor = Color.ForestGreen;
 
             // EXT-01 (FA-01 de RF-01): advertencia. El plan igual se calculo.
-            if (viabilidad == "Poco realista")
+            if (resultado.EsPocoRealista)
             {
                 MessageBox.Show(
                     "La marca objetivo mejora el récord personal del atleta por encima del umbral definido. " +
@@ -232,41 +208,58 @@ namespace NatSys.UI
                 return;
             }
 
-            var motor = MotorPasajes.GetInstancia();
-            var plan = motor.ObtenerPlanVigente(atleta.IdPersona, prueba.IdPrueba);
+            var plan = _fachada.ObtenerPlanVigente(atleta.IdPersona, prueba.IdPrueba);
 
             if (plan == null)
                 lblPlanVigente.Text = "Plan vigente: no tiene ninguno guardado para esta prueba.";
             else
                 lblPlanVigente.Text =
-                    $"Plan vigente: objetivo {motor.FormatearParaMostrar(plan.MarcaObjetivo)} " +
+                    $"Plan vigente: objetivo {_fachada.FormatearTiempo(plan.MarcaObjetivo)} " +
                     $"en pileta de {plan.LargoPileta} m ({plan.Fecha:dd/MM/yyyy}).";
         }
 
         // CU-01 paso 12 + EXT-02 (pasos 28 a 38 del diagrama de secuencias)
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (_planCalculado == null) return;
+            if (_resultado == null) return;
 
-            var motor = MotorPasajes.GetInstancia();
+            var plan = _resultado.Plan;
 
             // Si ya hay un plan vigente, avisamos que va a quedar reemplazado
-            var planVigente = motor.ObtenerPlanVigente(_planCalculado.IdAtleta, _planCalculado.IdPrueba);
+            var planVigente = _fachada.ObtenerPlanVigente(plan.IdAtleta, plan.IdPrueba);
             if (planVigente != null)
             {
                 var respuesta = MessageBox.Show(
-                    $"Este atleta ya tiene un plan vigente para esta prueba (objetivo {motor.FormatearParaMostrar(planVigente.MarcaObjetivo)}).\n" +
+                    $"Este atleta ya tiene un plan vigente para esta prueba (objetivo {_fachada.FormatearTiempo(planVigente.MarcaObjetivo)}).\n" +
                     "Si guardás el nuevo, el anterior queda como \"Reemplazado\" en el historial.\n\n¿Guardar igual?",
                     "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (respuesta != DialogResult.Yes) return;
             }
 
-            motor.GuardarPlan(_planCalculado);
+            _fachada.GuardarPlan(plan);
             MessageBox.Show("Plan guardado.", "Listo");
 
             btnGuardar.Enabled = false; // evita guardar dos veces el mismo plan
             MostrarPlanVigente();
+        }
+
+        // RF-01: el plan queda "disponible para su consulta y exportacion".
+        // Como los atletas no entran al sistema, asi se les pasa su plan.
+        private void btnExportarPdf_Click(object sender, EventArgs e)
+        {
+            var resultado = _resultado;
+            var atleta = AtletaSeleccionado();
+            var prueba = PruebaSeleccionada();
+            if (resultado == null || atleta == null || prueba == null) return;
+
+            string nombreAtleta = atleta.GetNombreCompleto();
+            string marcaObjetivo = _fachada.FormatearTiempo(resultado.Plan.MarcaObjetivo);
+
+            ExportadorPdf.GuardarConDialogo(
+                $"Plan {nombreAtleta} {prueba.Nombre}",
+                ruta => ExportadorPdf.ExportarPlanPasajes(ruta, nombreAtleta, prueba.Nombre,
+                    _entrenador.GetNombreCompleto(), marcaObjetivo, resultado));
         }
 
         // "Descartar": no se guarda nada y se vuelve a empezar (post-condicion
@@ -283,14 +276,15 @@ namespace NatSys.UI
             this.Close();
         }
 
-        // Borra el plan calculado y todo lo que se mostraba de el
+        // Borra el calculo y todo lo que se mostraba de el
         private void LimpiarResultado()
         {
-            _planCalculado = null;
+            _resultado = null;
             dgvPasajes.DataSource = null;
             lblRecordPersonal.Text = "";
             lblViabilidad.Text = "";
             btnGuardar.Enabled = false;
+            btnExportarPdf.Enabled = false;
         }
 
         private Atleta? AtletaSeleccionado()

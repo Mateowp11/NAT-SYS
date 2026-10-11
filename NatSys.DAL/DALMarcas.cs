@@ -118,5 +118,23 @@ namespace NatSys.DAL
 
             contexto.SaveChanges();
         }
+
+        // Para el reporte de evolucion (RF-06.2): todas las marcas de un
+        // atleta en una pileta, entre dos fechas, con su prueba y el estilo
+        // de la prueba. Ordenadas de la mas vieja a la mas nueva.
+        public List<Marca> ObtenerMarcasDeAtleta(int idAtleta, int largoPileta, DateTime desde, DateTime hasta)
+        {
+            using var contexto = new NatSysDbContext(_connectionString);
+            return contexto.Marcas
+                .Include(m => m.Prueba)
+                    .ThenInclude(p => p.Estilo)
+                .Where(m => m.IdAtleta == idAtleta
+                    && m.LargoPileta == largoPileta
+                    && m.Fecha >= desde
+                    && m.Fecha <= hasta)
+                .OrderBy(m => m.Fecha)
+                .AsNoTracking()
+                .ToList();
+        }
     }
 }
