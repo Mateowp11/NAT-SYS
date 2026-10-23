@@ -16,6 +16,10 @@ namespace NatSys.Entidades
         public List<Prueba> Pruebas { get; set; } = new List<Prueba>();
         public List<Marca> Marcas { get; set; } = new List<Marca>();
 
+        // Iteracion 2: grupos de entrenamiento en los que esta (puede ser
+        // mas de uno, por ejemplo si hace doble turno)
+        public List<GrupoEntrenamiento> Grupos { get; set; } = new List<GrupoEntrenamiento>();
+
         public bool EstaActivo()
         {
             return Estado == "activo";

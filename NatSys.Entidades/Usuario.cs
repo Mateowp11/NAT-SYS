@@ -18,6 +18,11 @@ namespace NatSys.Entidades
         public string PreguntaSeguridad { get; set; }
         public string RespuestaSeguridadHash { get; set; }
 
+        // Iteracion 2: true cuando la clave la genero el sistema (usuario
+        // creado automaticamente al dar de alta un atleta). Obliga a
+        // cambiarla en el primer ingreso.
+        public bool ClaveProvisoria { get; set; }
+
         public int IdPersona { get; set; }
         public Persona Persona { get; set; }
 

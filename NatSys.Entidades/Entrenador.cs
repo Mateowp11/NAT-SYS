@@ -13,6 +13,9 @@ namespace NatSys.Entidades
 
         public List<PlanPasaje> Planes { get; set; } = new List<PlanPasaje>();
 
+        // Iteracion 2: grupos de entrenamiento que tiene a cargo
+        public List<GrupoEntrenamiento> Grupos { get; set; } = new List<GrupoEntrenamiento>();
+
         public bool EstaActivo()
         {
             return Estado == "activo";

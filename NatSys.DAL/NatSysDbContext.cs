@@ -36,6 +36,13 @@ namespace NatSys.DAL
         public DbSet<PlanPasaje> PlanesPasaje { get; set; }
         public DbSet<Pasaje> Pasajes { get; set; }
 
+        // Iteracion 2: grupos de entrenamiento, trabajos diarios y resultados
+        public DbSet<GrupoEntrenamiento> GruposEntrenamiento { get; set; }
+        public DbSet<TrabajoDiario> TrabajosDiarios { get; set; }
+        public DbSet<Bloque> Bloques { get; set; }
+        public DbSet<Resultado> Resultados { get; set; }
+        public DbSet<TiempoRepeticion> TiemposRepeticion { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // TPT (Table Per Type), no TPC: creamos una tabla Personas
@@ -71,6 +78,11 @@ namespace NatSys.DAL
             modelBuilder.Entity<Marca>().HasKey(m => m.IdMarca);
             modelBuilder.Entity<PlanPasaje>().HasKey(p => p.IdPlanPasaje);
             modelBuilder.Entity<Pasaje>().HasKey(pa => pa.IdPasaje);
+            modelBuilder.Entity<GrupoEntrenamiento>().HasKey(g => g.IdGrupoEntrenamiento);
+            modelBuilder.Entity<TrabajoDiario>().HasKey(t => t.IdTrabajo);
+            modelBuilder.Entity<Bloque>().HasKey(b => b.IdBloque);
+            modelBuilder.Entity<Resultado>().HasKey(r => r.IdResultado);
+            modelBuilder.Entity<TiempoRepeticion>().HasKey(t => t.IdTiempo);
 
             modelBuilder.Entity<Usuario>()
                 .HasIndex(u => u.NombreUsuario)
@@ -101,12 +113,19 @@ namespace NatSys.DAL
                     new { GruposIdGrupo = 1, PermisosIdPermiso = 5 },
                     new { GruposIdGrupo = 1, PermisosIdPermiso = 6 },
                     new { GruposIdGrupo = 1, PermisosIdPermiso = 7 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 8 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 9 },
+                    new { GruposIdGrupo = 1, PermisosIdPermiso = 10 },
                     // Entrenadores (IdGrupo=2): todo menos Usuarios y Grupos
                     new { GruposIdGrupo = 2, PermisosIdPermiso = 1 },
                     new { GruposIdGrupo = 2, PermisosIdPermiso = 2 },
                     new { GruposIdGrupo = 2, PermisosIdPermiso = 3 },
                     new { GruposIdGrupo = 2, PermisosIdPermiso = 4 },
-                    new { GruposIdGrupo = 2, PermisosIdPermiso = 5 }
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 5 },
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 8 },
+                    new { GruposIdGrupo = 2, PermisosIdPermiso = 9 },
+                    // Atletas (IdGrupo=3, iteracion 2): solo cargar sus resultados
+                    new { GruposIdGrupo = 3, PermisosIdPermiso = 10 }
                 ));
 
             modelBuilder.Entity<Sesion>()
@@ -172,6 +191,99 @@ namespace NatSys.DAL
                 .WithMany(pl => pl.Pasajes)
                 .HasForeignKey(pa => pa.IdPlanPasaje);
 
+            // ================= ITERACION 2: ENTRENAMIENTO =================
+            //
+            // Criterio para los borrados en cascada:
+            //  - Composicion (TrabajoDiario-Bloque, Bloque-Resultado,
+            //    Resultado-TiempoRepeticion): Cascade. Si se borra el todo,
+            //    se borran sus partes (CU-07: "elimina el trabajo junto con
+            //    sus bloques y resultados").
+            //  - Todo lo demas: Restrict. La regla de negocio se valida en el
+            //    gestor antes de borrar, y la base queda como segunda barrera.
+            //    Ademas evita el error de SQL Server "multiple cascade paths"
+            //    (igual que en PlanPasaje).
+
+            // Entrenador 1 --- 0..* GrupoEntrenamiento (bidireccional).
+            // Restrict: no se puede borrar un entrenador con grupos a cargo.
+            modelBuilder.Entity<GrupoEntrenamiento>()
+                .HasOne(g => g.Entrenador)
+                .WithMany(e => e.Grupos)
+                .HasForeignKey(g => g.IdEntrenador)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // GrupoEntrenamiento 0..* --- 1..* Atleta (muchos a muchos).
+            // EF crea sola la tabla intermedia "AtletaGrupoEntrenamiento",
+            // como ya hace con AtletaPrueba o GrupoUsuario. Lo unico que se
+            // borra en cascada es la FILA de esa tabla (la pertenencia al
+            // grupo), nunca el atleta ni el grupo.
+            modelBuilder.Entity<GrupoEntrenamiento>()
+                .HasMany(g => g.Atletas)
+                .WithMany(a => a.Grupos);
+
+            // TrabajoDiario 0..* --> 1 GrupoEntrenamiento (solo el trabajo
+            // conoce a su grupo). Restrict = CA-02 de CU-06: no se elimina un
+            // grupo que tiene trabajos cargados.
+            modelBuilder.Entity<TrabajoDiario>()
+                .HasOne(t => t.Grupo)
+                .WithMany()
+                .HasForeignKey(t => t.IdGrupoEntrenamiento)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // "date" en vez de "datetime2": el trabajo es de un DIA, la hora no
+            // importa. Asi la consulta "trabajos de hoy" compara solo fechas.
+            modelBuilder.Entity<TrabajoDiario>()
+                .Property(t => t.Fecha)
+                .HasColumnType("date");
+
+            // TrabajoDiario 1 <>--- 0..* Bloque (composicion).
+            // WithOne() vacio: Bloque no tiene propiedad hacia el trabajo.
+            modelBuilder.Entity<TrabajoDiario>()
+                .HasMany(t => t.Bloques)
+                .WithOne()
+                .HasForeignKey(b => b.IdTrabajo)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Bloque 1 <>--- 0..* Resultado (composicion)
+            modelBuilder.Entity<Bloque>()
+                .HasMany(b => b.Resultados)
+                .WithOne()
+                .HasForeignKey(r => r.IdBloque)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Resultado 0..* --> 1 Atleta. Restrict: el historial de tiempos
+            // no se pierde si alguien intenta borrar al atleta.
+            modelBuilder.Entity<Resultado>()
+                .HasOne(r => r.Atleta)
+                .WithMany()
+                .HasForeignKey(r => r.IdAtleta)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Regla de negocio de CU-08-EXT-01: un unico resultado por atleta
+            // y por bloque. Si el atleta vuelve a cargar, se corrige el que ya
+            // existe; la base rechaza cualquier duplicado.
+            modelBuilder.Entity<Resultado>()
+                .HasIndex(r => new { r.IdBloque, r.IdAtleta })
+                .IsUnique();
+
+            // Resultado 1 <>--- 1..* TiempoRepeticion (composicion)
+            modelBuilder.Entity<Resultado>()
+                .HasMany(r => r.Tiempos)
+                .WithOne()
+                .HasForeignKey(t => t.IdResultado)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Una sola fila por cada numero de repeticion dentro del resultado
+            modelBuilder.Entity<TiempoRepeticion>()
+                .HasIndex(t => new { t.IdResultado, t.NroRepeticion })
+                .IsUnique();
+
+            // Segundos con 2 decimales: hasta 99999.99 s, de sobra para
+            // cualquier repeticion. Se fija para que no quede el decimal(18,2)
+            // por defecto (y EF no tire la advertencia de precision).
+            modelBuilder.Entity<TiempoRepeticion>()
+                .Property(t => t.Tiempo)
+                .HasPrecision(7, 2);
+
             // ---------- Usuario de fabrica ----------
             //
             // Toda base de datos NUEVA (la tuya ahora, o la de un cliente el
@@ -214,7 +326,10 @@ namespace NatSys.DAL
                 Estado = "activo",
                 IntentosFallidos = 0,
                 PreguntaSeguridad = "¿Cuál es tu comida favorita?",
-                RespuestaSeguridadHash = "100000.kESgVpXzptVDIk65q4lo0w==.9zFXADSlOndC/igsrxTKhiGfWubSxlAKtqA4z52luZ0="
+                RespuestaSeguridadHash = "100000.kESgVpXzptVDIk65q4lo0w==.9zFXADSlOndC/igsrxTKhiGfWubSxlAKtqA4z52luZ0=",
+                // Iteracion 2: HasData exige un valor para cada columna
+                // obligatoria nueva. El admin no tiene clave provisoria.
+                ClaveProvisoria = false
             });
 
             // ---------- Permisos y Grupos de fabrica ----------
@@ -229,14 +344,21 @@ namespace NatSys.DAL
                 new Permiso { IdPermiso = 4, Nombre = "CALCULAR_PASAJES", Modulo = "Pasajes", Accion = "Calcular" },
                 new Permiso { IdPermiso = 5, Nombre = "VER_REPORTES", Modulo = "Reportes", Accion = "Ver" },
                 new Permiso { IdPermiso = 6, Nombre = "GESTIONAR_USUARIOS", Modulo = "Usuarios", Accion = "Gestionar" },
-                new Permiso { IdPermiso = 7, Nombre = "GESTIONAR_GRUPOS", Modulo = "Grupos", Accion = "Gestionar" }
+                new Permiso { IdPermiso = 7, Nombre = "GESTIONAR_GRUPOS", Modulo = "Grupos", Accion = "Gestionar" },
+                // Iteracion 2 (los informes de CU-09 usan VER_REPORTES, el 5)
+                new Permiso { IdPermiso = 8, Nombre = "GESTIONAR_GRUPOS_ENTRENAMIENTO", Modulo = "Entrenamiento", Accion = "Gestionar" },
+                new Permiso { IdPermiso = 9, Nombre = "CARGAR_TRABAJOS", Modulo = "Entrenamiento", Accion = "Cargar" },
+                new Permiso { IdPermiso = 10, Nombre = "CARGAR_RESULTADOS", Modulo = "Entrenamiento", Accion = "Cargar resultados" }
             );
 
             // Administradores: acceso total. Entrenadores: todo menos
             // Usuarios y Grupos (eso queda exclusivo del administrador).
+            // Atletas (iteracion 2): el grupo al que entra el usuario que se
+            // crea solo al dar de alta un atleta; solo carga sus tiempos.
             modelBuilder.Entity<Grupo>().HasData(
                 new Grupo { IdGrupo = 1, Nombre = "Administradores", Descripcion = "Acceso total al sistema", Estado = "activo" },
-                new Grupo { IdGrupo = 2, Nombre = "Entrenadores", Descripcion = "Gestion operativa del equipo", Estado = "activo" }
+                new Grupo { IdGrupo = 2, Nombre = "Entrenadores", Descripcion = "Gestion operativa del equipo", Estado = "activo" },
+                new Grupo { IdGrupo = 3, Nombre = "Atletas", Descripcion = "Carga de resultados desde la web", Estado = "activo" }
             );
 
             // ---------- Estilos y Pruebas oficiales ----------
