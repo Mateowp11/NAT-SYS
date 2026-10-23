@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- ScottPlot.WinForms trae OpenTK 3.1.0 (hecho para .NET Framework). Funciona igual,
+         pero su advertencia NU1701 hace fallar Add-Migration en la consola de paquetes. -->
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
