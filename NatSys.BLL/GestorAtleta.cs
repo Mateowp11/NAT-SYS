@@ -76,20 +76,33 @@ namespace NatSys.BLL
             _atletaDAL.Modificar(idAtleta, nombre, apellido, fechaNacimiento, categoria);
         }
 
-        // Regla de negocio (CU-02, CA-02): si el atleta tiene marcas registradas,
-        // no se puede eliminar fisicamente. La Vista debe atrapar esta excepcion
-        // y ofrecer DesactivarAtleta como alternativa.
+        // Regla de negocio (CU-02, CA-02): si el atleta tiene historial (marcas
+        // o planes de pasajes guardados), no se puede eliminar fisicamente.
+        // La Vista atrapa esta excepcion y ofrece DesactivarAtleta como
+        // alternativa (baja logica, que conserva todo el historial).
         public void EliminarAtleta(int idAtleta)
         {
+            // Un mensaje distinto para cada caso, asi el entrenador sabe que
+            // tiene que borrar primero (o si le conviene desactivarlo)
             if (_atletaDAL.TieneMarcasAsociadas(idAtleta))
                 throw new InvalidOperationException(
-                    "No se puede eliminar un atleta con marcas registradas. Se lo puede desactivar en su lugar.");
+                    "No se puede eliminar: el atleta tiene marcas registradas.\n" +
+                    "Si lo cargaste por error, borrá primero sus marcas desde Gestión de Marcas.");
+
+            if (_atletaDAL.TienePlanesAsociados(idAtleta))
+                throw new InvalidOperationException(
+                    "No se puede eliminar: el atleta tiene planes de pasajes guardados.\n" +
+                    "Si lo cargaste por error, borrá primero sus planes con el botón \"Planes\".");
 
             _atletaDAL.EliminarFisico(idAtleta);
         }
 
         // Baja logica: conserva el historial de marcas del atleta
         public void DesactivarAtleta(int idAtleta) => _atletaDAL.MarcarInactivo(idAtleta);
+
+        // Lo contrario de la baja logica: se le vuelven a poder cargar marcas
+        // y calcular pasajes, con todo su historial intacto
+        public void ReactivarAtleta(int idAtleta) => _atletaDAL.MarcarActivo(idAtleta);
 
         public void AsignarPrueba(int idAtleta, int idPrueba) => _atletaDAL.AsignarPrueba(idAtleta, idPrueba);
 

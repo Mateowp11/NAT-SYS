@@ -103,11 +103,29 @@ namespace NatSys.DAL
             return contexto.Marcas.Any(m => m.IdAtleta == idAtleta);
         }
 
+        // Tampoco se puede eliminar un atleta con planes de pasajes guardados:
+        // la relacion PlanPasaje -> Atleta es Restrict (los planes no se borran
+        // en cascada), asi que la base rechazaria el DELETE.
+        public bool TienePlanesAsociados(int idAtleta)
+        {
+            using var contexto = new NatSysDbContext(_connectionString);
+            return contexto.PlanesPasaje.Any(p => p.IdAtleta == idAtleta);
+        }
+
         public void EliminarFisico(int idAtleta)
         {
             using var contexto = new NatSysDbContext(_connectionString);
             var atleta = contexto.Atletas.Find(idAtleta);
             contexto.Atletas.Remove(atleta);
+            contexto.SaveChanges();
+        }
+
+        // Reactivacion: vuelve a dejar al atleta como activo
+        public void MarcarActivo(int idAtleta)
+        {
+            using var contexto = new NatSysDbContext(_connectionString);
+            var atleta = contexto.Atletas.Find(idAtleta);
+            atleta.Estado = "activo";
             contexto.SaveChanges();
         }
 

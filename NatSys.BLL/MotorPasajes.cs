@@ -129,6 +129,10 @@ namespace NatSys.BLL
 
             decimal totalSegundos = ConvertirASegundos(marcaObjetivo);
 
+            // Defecto D-02 (prueba CN-14): un tiempo 00.00 no es una marca valida
+            if (totalSegundos <= 0)
+                throw new ArgumentException("La marca objetivo tiene que ser mayor a cero.");
+
             // Eleccion de la estrategia (patron Strategy), en este orden:
             // 1. Si hay un perfil REAL para esta prueba (parciales de los
             //    finalistas de un Mundial / JJOO), se usa ese.
@@ -275,6 +279,14 @@ namespace NatSys.BLL
 
         public List<PlanPasaje> ObtenerHistorial(int idAtleta, int idPrueba) =>
             _planDAL.ObtenerHistorial(idAtleta, idPrueba);
+
+        // Planes guardados de un atleta (pantalla frmPlanesAtleta)
+        public List<PlanPasaje> ObtenerPlanesDeAtleta(int idAtleta) =>
+            _planDAL.ObtenerPlanesDeAtleta(idAtleta);
+
+        // Borra un plan guardado con sus tramos. Si era el vigente, esa prueba
+        // queda sin plan vigente hasta que se guarde uno nuevo.
+        public void EliminarPlan(int idPlan) => _planDAL.EliminarPlan(idPlan);
 
         // ---------- Pruebas Combinadas (100/200/400) ----------
         //

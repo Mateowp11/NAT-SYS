@@ -17,7 +17,8 @@
 // Roles del patron:
 //   Fachada     -> FachadaPasajes
 //   Subsistema  -> GestorAtleta, GestorMarcas, MotorPasajes
-//   Cliente     -> frmCalcularPasajes
+//   Cliente     -> frmCalcularPasajes (calcular y guardar) y
+//                  frmPlanesAtleta (ver y borrar planes guardados)
 
 using System;
 using System.Collections.Generic;
@@ -100,6 +101,16 @@ namespace NatSys.BLL
 
         // CU-01 paso 12 + EXT-02: guarda y deja el anterior como "Reemplazado"
         public void GuardarPlan(PlanPasaje plan) => _motor.GuardarPlan(plan);
+
+        // ---------- Planes guardados (frmPlanesAtleta) ----------
+
+        public List<PlanPasaje> ObtenerPlanesDeAtleta(int idAtleta) => _motor.ObtenerPlanesDeAtleta(idAtleta);
+
+        // Las mismas filas (tramo, metros, parcial, acumulado) que muestra la
+        // pantalla de calculo, pero de un plan que ya estaba guardado
+        public List<FilaPasaje> ObtenerFilasDePlan(PlanPasaje plan) => ArmarFilas(plan);
+
+        public void EliminarPlan(int idPlan) => _motor.EliminarPlan(idPlan);
 
         // Arma las filas de la grilla: parcial de cada tramo y tiempo acumulado
         private List<FilaPasaje> ArmarFilas(PlanPasaje plan)
