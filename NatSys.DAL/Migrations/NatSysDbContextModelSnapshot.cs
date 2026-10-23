@@ -22,6 +22,21 @@ namespace NatSys.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AtletaGrupoEntrenamiento", b =>
+                {
+                    b.Property<int>("AtletasIdPersona")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GruposIdGrupoEntrenamiento")
+                        .HasColumnType("int");
+
+                    b.HasKey("AtletasIdPersona", "GruposIdGrupoEntrenamiento");
+
+                    b.HasIndex("GruposIdGrupoEntrenamiento");
+
+                    b.ToTable("AtletaGrupoEntrenamiento");
+                });
+
             modelBuilder.Entity("AtletaPrueba", b =>
                 {
                     b.Property<int>("AtletaIdPersona")
@@ -89,6 +104,21 @@ namespace NatSys.DAL.Migrations
                         },
                         new
                         {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 8
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 9
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 1,
+                            PermisosIdPermiso = 10
+                        },
+                        new
+                        {
                             GruposIdGrupo = 2,
                             PermisosIdPermiso = 1
                         },
@@ -111,6 +141,21 @@ namespace NatSys.DAL.Migrations
                         {
                             GruposIdGrupo = 2,
                             PermisosIdPermiso = 5
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 8
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 2,
+                            PermisosIdPermiso = 9
+                        },
+                        new
+                        {
+                            GruposIdGrupo = 3,
+                            PermisosIdPermiso = 10
                         });
                 });
 
@@ -134,6 +179,37 @@ namespace NatSys.DAL.Migrations
                             GruposIdGrupo = 1,
                             UsuariosIdUsuario = 1
                         });
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.Bloque", b =>
+                {
+                    b.Property<int>("IdBloque")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdBloque"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Distancia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTrabajo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Orden")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Repeticiones")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdBloque");
+
+                    b.HasIndex("IdTrabajo");
+
+                    b.ToTable("Bloques");
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Estilo", b =>
@@ -242,7 +318,40 @@ namespace NatSys.DAL.Migrations
                             Descripcion = "Gestion operativa del equipo",
                             Estado = "activo",
                             Nombre = "Entrenadores"
+                        },
+                        new
+                        {
+                            IdGrupo = 3,
+                            Descripcion = "Carga de resultados desde la web",
+                            Estado = "activo",
+                            Nombre = "Atletas"
                         });
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.GrupoEntrenamiento", b =>
+                {
+                    b.Property<int>("IdGrupoEntrenamiento")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdGrupoEntrenamiento"));
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdEntrenador")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdGrupoEntrenamiento");
+
+                    b.HasIndex("IdEntrenador");
+
+                    b.ToTable("GruposEntrenamiento");
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Marca", b =>
@@ -391,6 +500,27 @@ namespace NatSys.DAL.Migrations
                             Accion = "Gestionar",
                             Modulo = "Grupos",
                             Nombre = "GESTIONAR_GRUPOS"
+                        },
+                        new
+                        {
+                            IdPermiso = 8,
+                            Accion = "Gestionar",
+                            Modulo = "Entrenamiento",
+                            Nombre = "GESTIONAR_GRUPOS_ENTRENAMIENTO"
+                        },
+                        new
+                        {
+                            IdPermiso = 9,
+                            Accion = "Cargar",
+                            Modulo = "Entrenamiento",
+                            Nombre = "CARGAR_TRABAJOS"
+                        },
+                        new
+                        {
+                            IdPermiso = 10,
+                            Accion = "Cargar resultados",
+                            Modulo = "Entrenamiento",
+                            Nombre = "CARGAR_RESULTADOS"
                         });
                 });
 
@@ -621,6 +751,37 @@ namespace NatSys.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("NatSys.Entidades.Resultado", b =>
+                {
+                    b.Property<int>("IdResultado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdResultado"));
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCarga")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdAtleta")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdBloque")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdResultado");
+
+                    b.HasIndex("IdAtleta");
+
+                    b.HasIndex("IdBloque", "IdAtleta")
+                        .IsUnique();
+
+                    b.ToTable("Resultados");
+                });
+
             modelBuilder.Entity("NatSys.Entidades.Sesion", b =>
                 {
                     b.Property<int>("IdSesion")
@@ -647,6 +808,32 @@ namespace NatSys.DAL.Migrations
                     b.HasIndex("IdUsuario");
 
                     b.ToTable("Sesiones");
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.TiempoRepeticion", b =>
+                {
+                    b.Property<int>("IdTiempo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTiempo"));
+
+                    b.Property<int>("IdResultado")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NroRepeticion")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Tiempo")
+                        .HasPrecision(7, 2)
+                        .HasColumnType("decimal(7,2)");
+
+                    b.HasKey("IdTiempo");
+
+                    b.HasIndex("IdResultado", "NroRepeticion")
+                        .IsUnique();
+
+                    b.ToTable("TiemposRepeticion");
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Torneo", b =>
@@ -680,6 +867,37 @@ namespace NatSys.DAL.Migrations
                     b.ToTable("Torneos");
                 });
 
+            modelBuilder.Entity("NatSys.Entidades.TrabajoDiario", b =>
+                {
+                    b.Property<int>("IdTrabajo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTrabajo"));
+
+                    b.Property<byte[]>("Archivo")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ArchivoNombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("date");
+
+                    b.Property<int>("IdGrupoEntrenamiento")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdTrabajo");
+
+                    b.HasIndex("IdGrupoEntrenamiento");
+
+                    b.ToTable("TrabajosDiarios");
+                });
+
             modelBuilder.Entity("NatSys.Entidades.Usuario", b =>
                 {
                     b.Property<int>("IdUsuario")
@@ -691,6 +909,9 @@ namespace NatSys.DAL.Migrations
                     b.Property<string>("Clave")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ClaveProvisoria")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -731,6 +952,7 @@ namespace NatSys.DAL.Migrations
                         {
                             IdUsuario = 1,
                             Clave = "100000.4uvRpU0wa/QMbwBk3j9KVw==.3R4HkrQp2yVzE/gVZ1Ah24Pcd2IWeBNbwkOimRtx6aU=",
+                            ClaveProvisoria = false,
                             Estado = "activo",
                             IdPersona = 1,
                             IntentosFallidos = 0,
@@ -783,6 +1005,21 @@ namespace NatSys.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AtletaGrupoEntrenamiento", b =>
+                {
+                    b.HasOne("NatSys.Entidades.Atleta", null)
+                        .WithMany()
+                        .HasForeignKey("AtletasIdPersona")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NatSys.Entidades.GrupoEntrenamiento", null)
+                        .WithMany()
+                        .HasForeignKey("GruposIdGrupoEntrenamiento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AtletaPrueba", b =>
                 {
                     b.HasOne("NatSys.Entidades.Atleta", null)
@@ -826,6 +1063,26 @@ namespace NatSys.DAL.Migrations
                         .HasForeignKey("UsuariosIdUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.Bloque", b =>
+                {
+                    b.HasOne("NatSys.Entidades.TrabajoDiario", null)
+                        .WithMany("Bloques")
+                        .HasForeignKey("IdTrabajo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.GrupoEntrenamiento", b =>
+                {
+                    b.HasOne("NatSys.Entidades.Entrenador", "Entrenador")
+                        .WithMany("Grupos")
+                        .HasForeignKey("IdEntrenador")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Entrenador");
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Marca", b =>
@@ -902,6 +1159,23 @@ namespace NatSys.DAL.Migrations
                     b.Navigation("Estilo");
                 });
 
+            modelBuilder.Entity("NatSys.Entidades.Resultado", b =>
+                {
+                    b.HasOne("NatSys.Entidades.Atleta", "Atleta")
+                        .WithMany()
+                        .HasForeignKey("IdAtleta")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NatSys.Entidades.Bloque", null)
+                        .WithMany("Resultados")
+                        .HasForeignKey("IdBloque")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Atleta");
+                });
+
             modelBuilder.Entity("NatSys.Entidades.Sesion", b =>
                 {
                     b.HasOne("NatSys.Entidades.Usuario", "Usuario")
@@ -911,6 +1185,26 @@ namespace NatSys.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.TiempoRepeticion", b =>
+                {
+                    b.HasOne("NatSys.Entidades.Resultado", null)
+                        .WithMany("Tiempos")
+                        .HasForeignKey("IdResultado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.TrabajoDiario", b =>
+                {
+                    b.HasOne("NatSys.Entidades.GrupoEntrenamiento", "Grupo")
+                        .WithMany()
+                        .HasForeignKey("IdGrupoEntrenamiento")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Grupo");
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Usuario", b =>
@@ -942,14 +1236,29 @@ namespace NatSys.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NatSys.Entidades.Bloque", b =>
+                {
+                    b.Navigation("Resultados");
+                });
+
             modelBuilder.Entity("NatSys.Entidades.PlanPasaje", b =>
                 {
                     b.Navigation("Pasajes");
                 });
 
+            modelBuilder.Entity("NatSys.Entidades.Resultado", b =>
+                {
+                    b.Navigation("Tiempos");
+                });
+
             modelBuilder.Entity("NatSys.Entidades.Torneo", b =>
                 {
                     b.Navigation("Marcas");
+                });
+
+            modelBuilder.Entity("NatSys.Entidades.TrabajoDiario", b =>
+                {
+                    b.Navigation("Bloques");
                 });
 
             modelBuilder.Entity("NatSys.Entidades.Atleta", b =>
@@ -959,6 +1268,8 @@ namespace NatSys.DAL.Migrations
 
             modelBuilder.Entity("NatSys.Entidades.Entrenador", b =>
                 {
+                    b.Navigation("Grupos");
+
                     b.Navigation("Planes");
                 });
 #pragma warning restore 612, 618
