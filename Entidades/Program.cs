@@ -13,8 +13,9 @@ namespace NatSys.UI
             // un archivo de configuracion externo (distinta para cada
             // cliente). Por ahora, para desarrollar y probar, la dejamos
             // fija aca. Ajustá el nombre del servidor a tu SQL Server local.
+            // Rama iteracion-2: base aparte para no tocar la de Ingenieria de Software (NatSysDB).
             string connectionString =
-                @"Server=(localdb)\mssqllocaldb;Database=NatSysDB;Trusted_Connection=True;TrustServerCertificate=True;";
+                @"Server=(localdb)\mssqllocaldb;Database=NatSysDB_Diploma;Trusted_Connection=True;TrustServerCertificate=True;";
 
             GestorSeguridad.Inicializar(connectionString);
             GestorUsuarios.Inicializar(connectionString);

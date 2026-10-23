@@ -19,8 +19,9 @@ namespace NatSys.DAL
     {
         public NatSysDbContext CreateDbContext(string[] args)
         {
+            // Rama iteracion-2: base aparte para no tocar la de Ingenieria de Software (NatSysDB).
             string connectionStringDiseno =
-                @"Server=(localdb)\mssqllocaldb;Database=NatSysDB;Trusted_Connection=True;TrustServerCertificate=True;";
+                @"Server=(localdb)\mssqllocaldb;Database=NatSysDB_Diploma;Trusted_Connection=True;TrustServerCertificate=True;";
 
             return new NatSysDbContext(connectionStringDiseno);
         }
