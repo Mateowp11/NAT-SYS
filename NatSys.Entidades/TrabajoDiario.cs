@@ -39,9 +39,12 @@ namespace NatSys.Entidades
             return TieneArchivo() || Bloques.Any();
         }
 
+        // Se fija tambien en ArchivoNombre porque el listado de trabajos no
+        // trae los bytes del Excel (ver DALTrabajosDiarios.ObtenerPorGrupo)
         public bool TieneArchivo()
         {
-            return Archivo != null && Archivo.Length > 0;
+            return !string.IsNullOrEmpty(ArchivoNombre)
+                || (Archivo != null && Archivo.Length > 0);
         }
     }
 }
