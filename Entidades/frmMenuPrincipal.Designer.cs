@@ -28,6 +28,7 @@
             this.btnGestorUsuarios = new System.Windows.Forms.Button();
             this.btnGestorGrupos = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
+            this.btnEntrenamiento = new System.Windows.Forms.Button();
             this.SuspendLayout();
             //
             // lblTitulo
@@ -139,11 +140,22 @@
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             //
+            // btnEntrenamiento
+            //
+            this.btnEntrenamiento.Location = new System.Drawing.Point(730, 150);
+            this.btnEntrenamiento.Name = "btnEntrenamiento";
+            this.btnEntrenamiento.Size = new System.Drawing.Size(130, 70);
+            this.btnEntrenamiento.TabIndex = 11;
+            this.btnEntrenamiento.Text = "Entrenamiento";
+            this.btnEntrenamiento.UseVisualStyleBackColor = true;
+            this.btnEntrenamiento.Click += new System.EventHandler(this.btnEntrenamiento_Click);
+            //
             // FrmMenuPrincipal
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 320);
+            this.ClientSize = new System.Drawing.Size(890, 320);
+            this.Controls.Add(this.btnEntrenamiento);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnGestorGrupos);
             this.Controls.Add(this.btnGestorUsuarios);
@@ -176,5 +188,6 @@
         private System.Windows.Forms.Button btnGestorUsuarios;
         private System.Windows.Forms.Button btnGestorGrupos;
         private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.Button btnEntrenamiento;
     }
 }

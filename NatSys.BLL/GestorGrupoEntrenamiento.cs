@@ -74,9 +74,13 @@ namespace NatSys.BLL
             _grupoDAL.Modificar(idGrupo, nombre.Trim(), idEntrenador, idsAtletas);
         }
 
-        // CU-06 Eliminar (pasos 14 y 15). CA-02: con trabajos cargados no se
-        // puede. La Vista atrapa la excepcion y muestra el mensaje; si no hay
-        // trabajos, la Vista ya pidio la confirmacion antes de llamar aca.
+        // CU-06 paso 14: la Vista lo consulta ANTES de pedir la confirmacion,
+        // asi no pregunta "¿seguro?" para despues decir que no se puede
+        public bool TieneTrabajosAsociados(int idGrupo) => _grupoDAL.TieneTrabajosAsociados(idGrupo);
+
+        // CU-06 Eliminar (paso 15). CA-02: con trabajos cargados no se puede.
+        // Se vuelve a controlar aca aunque la Vista ya haya preguntado: la
+        // regla vive en el gestor, no en la pantalla.
         public void EliminarGrupo(int idGrupo)
         {
             if (_grupoDAL.TieneTrabajosAsociados(idGrupo))

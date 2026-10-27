@@ -38,6 +38,21 @@ namespace NatSys.UI
                 && GestorSeguridad.GetInstancia().VerificarPermiso(_sesion.Usuario, "GESTIONAR_GRUPOS");
             // btnReportes queda habilitado para todos: un atleta deberia
             // poder ver su propia evolucion cuando armemos esa pantalla.
+
+            // Iteracion 2: el modulo de entrenamiento se abre si el usuario
+            // tiene alguno de sus dos permisos (cada boton de adentro se
+            // habilita con el suyo, en frmMenuEntrenamiento)
+            var seguridad = GestorSeguridad.GetInstancia();
+            btnEntrenamiento.Enabled = esEntrenador
+                && (seguridad.VerificarPermiso(_sesion.Usuario, "GESTIONAR_GRUPOS_ENTRENAMIENTO")
+                    || seguridad.VerificarPermiso(_sesion.Usuario, "CARGAR_TRABAJOS"));
+        }
+
+        // Iteracion 2: grupos de entrenamiento (CU-06) y trabajos diarios (CU-07)
+        private void btnEntrenamiento_Click(object sender, EventArgs e)
+        {
+            var frm = new frmMenuEntrenamiento(_sesion);
+            frm.ShowDialog();
         }
 
         // Abre la gestion de atletas
