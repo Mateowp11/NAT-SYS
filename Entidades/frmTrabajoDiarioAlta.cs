@@ -11,8 +11,9 @@ namespace NatSys.UI
     {
         private readonly int _idGrupo;
 
-        // El Excel elegido (opcional). Se lee entero al adjuntarlo y viaja
-        // al gestor como bytes, que es como se guarda en la base.
+        // El archivo elegido (opcional): un Excel o una imagen. Se lee entero
+        // al adjuntarlo y viaja al gestor como bytes, que es como se guarda
+        // en la base. Las imagenes ya quedan achicadas aca.
         private byte[]? _archivo;
         private string? _archivoNombre;
 
@@ -47,23 +48,53 @@ namespace NatSys.UI
         {
             using var dialogo = new OpenFileDialog
             {
-                Title = "Elegí el Excel del trabajo",
-                Filter = "Archivos de Excel (*.xlsx;*.xls;*.xlsm)|*.xlsx;*.xls;*.xlsm"
+                Title = "Elegí el Excel o la imagen del trabajo",
+                Filter = "Excel o imagen (*.xlsx;*.xls;*.xlsm;*.jpg;*.jpeg;*.png)|*.xlsx;*.xls;*.xlsm;*.jpg;*.jpeg;*.png"
+                       + "|Excel (*.xlsx;*.xls;*.xlsm)|*.xlsx;*.xls;*.xlsm"
+                       + "|Imágenes (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png"
             };
 
             if (dialogo.ShowDialog() != DialogResult.OK) return;
 
+            // Se avisa antes de leer: no tiene sentido cargar en memoria un
+            // archivo enorme para despues rechazarlo. El tope es el del gestor.
+            if (new FileInfo(dialogo.FileName).Length > GestorTrabajoDiario.TamanioMaximoArchivo)
+            {
+                MessageBox.Show("El archivo no puede pesar más de 15 MB.",
+                    "Archivo muy grande", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
-                _archivo = File.ReadAllBytes(dialogo.FileName);
-                _archivoNombre = Path.GetFileName(dialogo.FileName);
-                txtArchivo.Text = _archivoNombre;
+                byte[] bytes = File.ReadAllBytes(dialogo.FileName);
+                string nombre = Path.GetFileName(dialogo.FileName);
+
+                if (AchicadorImagenes.EsImagen(nombre))
+                    bytes = AchicadorImagenes.Achicar(bytes, ref nombre);
+
+                _archivo = bytes;
+                _archivoNombre = nombre;
+                txtArchivo.Text = $"{nombre} ({FormatearTamanio(bytes.Length)})";
             }
             catch (IOException)
             {
-                MessageBox.Show("No se pudo leer el archivo. Si está abierto en Excel, cerralo y volvé a intentar.",
+                MessageBox.Show("No se pudo leer el archivo. Si está abierto en otro programa, cerralo y volvé a intentar.",
                     "No se pudo adjuntar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            catch (ArgumentException ex)
+            {
+                // La imagen no se pudo leer (archivo dañado o con otro formato)
+                MessageBox.Show(ex.Message, "No se pudo adjuntar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // 245760 -> "240 KB" ; 3145728 -> "3,0 MB"
+        private static string FormatearTamanio(int bytes)
+        {
+            return bytes < 1024 * 1024
+                ? $"{bytes / 1024} KB"
+                : $"{bytes / (1024.0 * 1024.0):0.0} MB";
         }
 
         private void btnQuitarArchivo_Click(object sender, EventArgs e)

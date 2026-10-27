@@ -89,9 +89,9 @@
             this.lblArchivo.AutoSize = true;
             this.lblArchivo.Location = new System.Drawing.Point(20, 98);
             this.lblArchivo.Name = "lblArchivo";
-            this.lblArchivo.Size = new System.Drawing.Size(145, 15);
+            this.lblArchivo.Size = new System.Drawing.Size(270, 15);
             this.lblArchivo.TabIndex = 5;
-            this.lblArchivo.Text = "Archivo Excel (opcional):";
+            this.lblArchivo.Text = "Archivo del trabajo, Excel o imagen (opcional):";
             //
             // txtArchivo
             //

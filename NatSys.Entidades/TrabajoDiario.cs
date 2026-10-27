@@ -8,7 +8,7 @@ using System.Linq;
 namespace NatSys.Entidades
 {
     // Trabajo que el entrenador le asigna a un grupo para una fecha.
-    // Puede traer el Excel con la sesion completa, los bloques de la serie
+    // Puede traer un archivo (Excel o imagen) con la sesion completa, los bloques de la serie
     // principal (sobre los que el atleta carga sus tiempos) o las dos cosas.
     public class TrabajoDiario
     {
@@ -19,7 +19,7 @@ namespace NatSys.Entidades
         public DateTime Fecha { get; set; } // solo importa el dia (la columna es "date")
         public string Tipo { get; set; } // TipoPileta / TipoGimnasio
 
-        // Excel opcional. Se guarda DENTRO de la base (varbinary) y no como
+        // Archivo opcional: un Excel o una imagen. Se guarda DENTRO de la base (varbinary) y no como
         // una ruta a un archivo: asi lo puede abrir cualquier PC del
         // entrenador sin compartir carpetas.
         public string? ArchivoNombre { get; set; }
@@ -40,7 +40,7 @@ namespace NatSys.Entidades
         }
 
         // Se fija tambien en ArchivoNombre porque el listado de trabajos no
-        // trae los bytes del Excel (ver DALTrabajosDiarios.ObtenerPorGrupo)
+        // trae los bytes del archivo (ver DALTrabajosDiarios.ObtenerPorGrupo)
         public bool TieneArchivo()
         {
             return !string.IsNullOrEmpty(ArchivoNombre)

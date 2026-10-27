@@ -17,7 +17,13 @@ namespace NatSys.BLL
         private readonly DALTrabajosDiarios _trabajoDAL;
         private readonly DALGruposEntrenamiento _grupoDAL;
 
-        private static readonly string[] ExtensionesExcel = { ".xlsx", ".xls", ".xlsm" };
+        // El archivo del trabajo puede ser un Excel o una imagen (una foto
+        // del pizarron o de la planilla)
+        private static readonly string[] ExtensionesValidas = { ".xlsx", ".xls", ".xlsm", ".jpg", ".jpeg", ".png" };
+
+        // Tope por archivo: protege el espacio de la base en la nube. La
+        // pantalla lo usa para avisar antes de leer un archivo enorme.
+        public const int TamanioMaximoArchivo = 15 * 1024 * 1024; // 15 MB
 
         private GestorTrabajoDiario(string connectionString)
         {
@@ -38,7 +44,7 @@ namespace NatSys.BLL
             return _instancia;
         }
 
-        // CU-07 paso 3 (sin los bytes del Excel, ver DALTrabajosDiarios)
+        // CU-07 paso 3 (sin los bytes del archivo, ver DALTrabajosDiarios)
         public List<TrabajoDiario> ObtenerTrabajosPorGrupo(int idGrupo) => _trabajoDAL.ObtenerPorGrupo(idGrupo);
 
         // CU-07 Agregar (pasos 7 a 11). La pantalla arma el TrabajoDiario con
@@ -125,12 +131,15 @@ namespace NatSys.BLL
             if (trabajo.Archivo == null || trabajo.Archivo.Length == 0)
                 throw new ArgumentException("El archivo adjunto está vacío.");
 
+            if (trabajo.Archivo.Length > TamanioMaximoArchivo)
+                throw new ArgumentException("El archivo adjunto no puede pesar más de 15 MB.");
+
             if (string.IsNullOrWhiteSpace(trabajo.ArchivoNombre))
                 throw new ArgumentException("Falta el nombre del archivo adjunto.");
 
             string extension = Path.GetExtension(trabajo.ArchivoNombre).ToLowerInvariant();
-            if (!ExtensionesExcel.Contains(extension))
-                throw new ArgumentException("El archivo tiene que ser un Excel (.xlsx o .xls).");
+            if (!ExtensionesValidas.Contains(extension))
+                throw new ArgumentException("El archivo tiene que ser un Excel (.xlsx o .xls) o una imagen (.jpg o .png).");
         }
 
         private void ValidarBloque(Bloque bloque, int numero)

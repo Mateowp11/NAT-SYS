@@ -12,7 +12,7 @@ namespace NatSys.UI
     public partial class frmTrabajosDiarios : Form
     {
         // Los trabajos del grupo elegido, tal como los devolvio el gestor
-        // (sin los bytes del Excel: esos se piden solo al abrirlo)
+        // (sin los bytes del archivo: esos se piden solo al abrirlo)
         private List<TrabajoDiario> _trabajos = new List<TrabajoDiario>();
 
         public frmTrabajosDiarios()
@@ -128,7 +128,8 @@ namespace NatSys.UI
         }
 
         // CU-07 Abrir (pasos 12-13). Los bytes se guardan como archivo en la
-        // carpeta temporal de Windows y se abren con el programa asociado (Excel).
+        // carpeta temporal de Windows y se abren con el programa asociado
+        // (Excel para las planillas, el visor de fotos para las imagenes).
         private void btnAbrir_Click(object sender, EventArgs e)
         {
             var trabajo = TrabajoSeleccionado();
@@ -152,12 +153,12 @@ namespace NatSys.UI
             }
             catch (IOException)
             {
-                MessageBox.Show("El archivo ya está abierto. Cerralo en Excel y volvé a intentar.",
+                MessageBox.Show("El archivo ya está abierto. Cerralo y volvé a intentar.",
                     "No se pudo abrir", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (System.ComponentModel.Win32Exception)
             {
-                MessageBox.Show("No hay ningún programa instalado para abrir archivos de Excel.",
+                MessageBox.Show("No hay ningún programa instalado para abrir este tipo de archivo.",
                     "No se pudo abrir", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

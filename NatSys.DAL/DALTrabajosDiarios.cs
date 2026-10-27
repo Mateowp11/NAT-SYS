@@ -20,9 +20,9 @@ namespace NatSys.DAL
 
         // CU-07 paso 3: los trabajos de un grupo, del mas nuevo al mas viejo.
         //
-        // OJO: el Excel NO viaja en esta consulta. El "Select" arma cada
+        // OJO: el archivo (Excel o imagen) NO viaja en esta consulta. El "Select" arma cada
         // TrabajoDiario con todo menos los bytes del archivo: con muchos
-        // trabajos cargados, traer todos los Excel solo para mostrar la
+        // trabajos cargados, traer todos los archivos solo para mostrar la
         // grilla seria lento (mas con la base en la nube). ArchivoNombre si
         // viene, y alcanza para saber si tiene archivo (TieneArchivo). Los
         // bytes se piden aparte con ObtenerArchivo, solo al abrirlo.
@@ -49,7 +49,7 @@ namespace NatSys.DAL
         // trabajos de HOY de los grupos del atleta, solo los que tienen
         // bloques (un dia de gimnasio sin serie no tiene tiempos para cargar).
         // Trae el nombre del grupo para que, si hay doble turno, el atleta
-        // sepa cual es cual. Tampoco trae el Excel.
+        // sepa cual es cual. Tampoco trae el archivo.
         public List<TrabajoDiario> ObtenerTrabajosConBloques(List<int> idsGrupos, DateTime fecha)
         {
             using var contexto = new NatSysDbContext(_connectionString);
@@ -101,7 +101,7 @@ namespace NatSys.DAL
                 .Any(b => b.Resultados.Any());
         }
 
-        // Solo los bytes del Excel (null si el trabajo no tiene archivo)
+        // Solo los bytes del archivo (null si el trabajo no tiene)
         public byte[]? ObtenerArchivo(int idTrabajo)
         {
             using var contexto = new NatSysDbContext(_connectionString);
