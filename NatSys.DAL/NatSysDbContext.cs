@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using NatSys.Entidades;
 
@@ -18,7 +17,18 @@ namespace NatSys.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer(_connectionString, sql =>
+                // Reintentos automaticos ante fallas pasajeras de conexion.
+                // En Azure hacen falta: si la base estaba en pausa por no
+                // usarse, la primera conexion falla mientras se "despierta"
+                // (tarda alrededor de un minuto). Con 8 reintentos y esperas
+                // crecientes de hasta 15 segundos, EF espera solo en vez de
+                // tirar error. Los errores de datos (por ejemplo una clave
+                // foranea) NO se reintentan.
+                sql.EnableRetryOnFailure(
+                    maxRetryCount: 8,
+                    maxRetryDelay: TimeSpan.FromSeconds(15),
+                    errorNumbersToAdd: null));
         }
 
         public DbSet<Persona> Personas { get; set; }
