@@ -15,6 +15,7 @@ namespace NatSys.UI
         public frmTorneoAlta()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _torneoAEditar = null;
             this.Text = "Nuevo torneo";
             cmbLargoPileta.SelectedIndex = 0;
@@ -23,6 +24,7 @@ namespace NatSys.UI
         public frmTorneoAlta(Torneo torneo)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _torneoAEditar = torneo;
             this.Text = "Modificar torneo";
 

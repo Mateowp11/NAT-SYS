@@ -27,6 +27,7 @@
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnGestorUsuarios = new System.Windows.Forms.Button();
             this.btnGestorGrupos = new System.Windows.Forms.Button();
+            this.btnCambiarClave = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.SuspendLayout();
             //
@@ -35,6 +36,7 @@
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.Location = new System.Drawing.Point(30, 25);
+            this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(260, 45);
             this.lblTitulo.TabIndex = 0;
@@ -45,6 +47,7 @@
             this.lblBienvenida.AutoSize = true;
             this.lblBienvenida.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.lblBienvenida.Location = new System.Drawing.Point(34, 75);
+            this.lblBienvenida.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblBienvenida.Name = "lblBienvenida";
             this.lblBienvenida.Size = new System.Drawing.Size(120, 20);
             this.lblBienvenida.TabIndex = 1;
@@ -54,6 +57,7 @@
             //
             this.lblElijaOpcion.AutoSize = true;
             this.lblElijaOpcion.Location = new System.Drawing.Point(34, 110);
+            this.lblElijaOpcion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblElijaOpcion.Name = "lblElijaOpcion";
             this.lblElijaOpcion.Size = new System.Drawing.Size(90, 15);
             this.lblElijaOpcion.TabIndex = 2;
@@ -62,6 +66,7 @@
             // btnGestorTorneos
             //
             this.btnGestorTorneos.Location = new System.Drawing.Point(30, 150);
+            this.btnGestorTorneos.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGestorTorneos.Name = "btnGestorTorneos";
             this.btnGestorTorneos.Size = new System.Drawing.Size(130, 70);
             this.btnGestorTorneos.TabIndex = 3;
@@ -72,6 +77,7 @@
             // btnGestorAtletas
             //
             this.btnGestorAtletas.Location = new System.Drawing.Point(170, 150);
+            this.btnGestorAtletas.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGestorAtletas.Name = "btnGestorAtletas";
             this.btnGestorAtletas.Size = new System.Drawing.Size(130, 70);
             this.btnGestorAtletas.TabIndex = 4;
@@ -82,6 +88,7 @@
             // btnGestorMarcas
             //
             this.btnGestorMarcas.Location = new System.Drawing.Point(310, 150);
+            this.btnGestorMarcas.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGestorMarcas.Name = "btnGestorMarcas";
             this.btnGestorMarcas.Size = new System.Drawing.Size(130, 70);
             this.btnGestorMarcas.TabIndex = 5;
@@ -92,6 +99,7 @@
             // btnCalcularPasajes
             //
             this.btnCalcularPasajes.Location = new System.Drawing.Point(450, 150);
+            this.btnCalcularPasajes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCalcularPasajes.Name = "btnCalcularPasajes";
             this.btnCalcularPasajes.Size = new System.Drawing.Size(130, 70);
             this.btnCalcularPasajes.TabIndex = 6;
@@ -102,6 +110,7 @@
             // btnReportes
             //
             this.btnReportes.Location = new System.Drawing.Point(590, 150);
+            this.btnReportes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnReportes.Name = "btnReportes";
             this.btnReportes.Size = new System.Drawing.Size(130, 70);
             this.btnReportes.TabIndex = 7;
@@ -111,7 +120,8 @@
             //
             // btnGestorUsuarios
             //
-            this.btnGestorUsuarios.Location = new System.Drawing.Point(165, 250);
+            this.btnGestorUsuarios.Location = new System.Drawing.Point(83, 250);
+            this.btnGestorUsuarios.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGestorUsuarios.Name = "btnGestorUsuarios";
             this.btnGestorUsuarios.Size = new System.Drawing.Size(150, 35);
             this.btnGestorUsuarios.TabIndex = 8;
@@ -121,7 +131,8 @@
             //
             // btnGestorGrupos
             //
-            this.btnGestorGrupos.Location = new System.Drawing.Point(330, 250);
+            this.btnGestorGrupos.Location = new System.Drawing.Point(248, 250);
+            this.btnGestorGrupos.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGestorGrupos.Name = "btnGestorGrupos";
             this.btnGestorGrupos.Size = new System.Drawing.Size(140, 35);
             this.btnGestorGrupos.TabIndex = 9;
@@ -129,12 +140,24 @@
             this.btnGestorGrupos.UseVisualStyleBackColor = true;
             this.btnGestorGrupos.Click += new System.EventHandler(this.btnGestorGrupos_Click);
             //
+            // btnCambiarClave (RF-05.5, para todos los usuarios)
+            //
+            this.btnCambiarClave.Location = new System.Drawing.Point(403, 250);
+            this.btnCambiarClave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCambiarClave.Name = "btnCambiarClave";
+            this.btnCambiarClave.Size = new System.Drawing.Size(150, 35);
+            this.btnCambiarClave.TabIndex = 10;
+            this.btnCambiarClave.Text = "Cambiar contraseña";
+            this.btnCambiarClave.UseVisualStyleBackColor = true;
+            this.btnCambiarClave.Click += new System.EventHandler(this.btnCambiarClave_Click);
+            //
             // btnSalir
             //
-            this.btnSalir.Location = new System.Drawing.Point(485, 250);
+            this.btnSalir.Location = new System.Drawing.Point(568, 250);
+            this.btnSalir.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(100, 35);
-            this.btnSalir.TabIndex = 10;
+            this.btnSalir.TabIndex = 11;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
@@ -145,6 +168,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 320);
             this.Controls.Add(this.btnSalir);
+            this.Controls.Add(this.btnCambiarClave);
             this.Controls.Add(this.btnGestorGrupos);
             this.Controls.Add(this.btnGestorUsuarios);
             this.Controls.Add(this.btnReportes);
@@ -155,7 +179,6 @@
             this.Controls.Add(this.lblElijaOpcion);
             this.Controls.Add(this.lblBienvenida);
             this.Controls.Add(this.lblTitulo);
-            this.MaximizeBox = false;
             this.Name = "frmMenuPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NAT-SYS - Menú principal";
@@ -175,6 +198,7 @@
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.Button btnGestorUsuarios;
         private System.Windows.Forms.Button btnGestorGrupos;
+        private System.Windows.Forms.Button btnCambiarClave;
         private System.Windows.Forms.Button btnSalir;
     }
 }

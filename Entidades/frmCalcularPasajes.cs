@@ -42,6 +42,7 @@ namespace NatSys.UI
         public frmCalcularPasajes(Entrenador entrenador)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             _entrenador = entrenador;
 
             CargarAtletas();

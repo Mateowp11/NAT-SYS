@@ -169,6 +169,7 @@
             this.dgvPasajes.AutoGenerateColumns = true;
             this.dgvPasajes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvPasajes.Location = new System.Drawing.Point(20, 285);
+            this.dgvPasajes.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dgvPasajes.Name = "dgvPasajes";
             this.dgvPasajes.RowHeadersVisible = false;
             this.dgvPasajes.Size = new System.Drawing.Size(420, 205);
@@ -177,6 +178,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(20, 505);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(100, 35);
             this.btnGuardar.TabIndex = 14;
@@ -187,6 +189,7 @@
             // btnExportarPdf
             //
             this.btnExportarPdf.Location = new System.Drawing.Point(125, 505);
+            this.btnExportarPdf.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnExportarPdf.Name = "btnExportarPdf";
             this.btnExportarPdf.Size = new System.Drawing.Size(100, 35);
             this.btnExportarPdf.TabIndex = 17;
@@ -197,6 +200,7 @@
             // btnDescartar
             //
             this.btnDescartar.Location = new System.Drawing.Point(230, 505);
+            this.btnDescartar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnDescartar.Name = "btnDescartar";
             this.btnDescartar.Size = new System.Drawing.Size(100, 35);
             this.btnDescartar.TabIndex = 15;
@@ -207,6 +211,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(340, 505);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(100, 35);
             this.btnVolver.TabIndex = 16;
@@ -239,8 +244,6 @@
             this.Controls.Add(this.lblPrueba);
             this.Controls.Add(this.cmbAtleta);
             this.Controls.Add(this.lblAtleta);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmCalcularPasajes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

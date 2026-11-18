@@ -15,6 +15,7 @@ namespace NatSys.UI
         public frmAsignarPermisos(int idGrupo, string nombreGrupo)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _idGrupo = idGrupo;
             this.Text = $"Permisos de: {nombreGrupo}";
             CargarPermisos();

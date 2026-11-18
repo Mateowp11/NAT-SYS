@@ -13,6 +13,7 @@ namespace NatSys.UI
         public frmMenuPrincipal(Sesion sesion)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _sesion = sesion;
             lblBienvenida.Text = $"Bienvenido/a, {_sesion.Usuario?.Persona?.GetNombreCompleto()}";
 
@@ -36,8 +37,9 @@ namespace NatSys.UI
 
             btnGestorGrupos.Enabled = esEntrenador
                 && GestorSeguridad.GetInstancia().VerificarPermiso(_sesion.Usuario, "GESTIONAR_GRUPOS");
-            // btnReportes queda habilitado para todos: un atleta deberia
-            // poder ver su propia evolucion cuando armemos esa pantalla.
+            // btnReportes y btnCambiarClave quedan habilitados para todos los
+            // que inician sesion (administrador y entrenadores; los atletas
+            // no usan el sistema: reciben su plan exportado en PDF).
         }
 
         // Abre la gestion de atletas
@@ -87,6 +89,15 @@ namespace NatSys.UI
         {
             var frm = new frmGrupos();
             frm.ShowDialog();
+        }
+
+        // RF-05.5: cualquier usuario puede cambiar su propia contraseña
+        private void btnCambiarClave_Click(object sender, EventArgs e)
+        {
+            if (_sesion.Usuario == null) return;
+
+            using var frm = new frmCambiarClave(_sesion.Usuario);
+            frm.ShowDialog(this);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

@@ -41,6 +41,7 @@
             // txtNombre
             //
             this.txtNombre.Location = new System.Drawing.Point(150, 20);
+            this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(180, 23);
             this.txtNombre.TabIndex = 1;
@@ -58,6 +59,7 @@
             //
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFecha.Location = new System.Drawing.Point(150, 55);
+            this.dtpFecha.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(180, 23);
             this.dtpFecha.TabIndex = 3;
@@ -74,6 +76,7 @@
             // txtSede
             //
             this.txtSede.Location = new System.Drawing.Point(150, 90);
+            this.txtSede.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtSede.Name = "txtSede";
             this.txtSede.Size = new System.Drawing.Size(180, 23);
             this.txtSede.TabIndex = 5;
@@ -92,6 +95,7 @@
             this.cmbLargoPileta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLargoPileta.Items.AddRange(new object[] { "25", "50" });
             this.cmbLargoPileta.Location = new System.Drawing.Point(150, 125);
+            this.cmbLargoPileta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbLargoPileta.Name = "cmbLargoPileta";
             this.cmbLargoPileta.Size = new System.Drawing.Size(180, 23);
             this.cmbLargoPileta.TabIndex = 7;
@@ -99,6 +103,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(60, 175);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(110, 32);
             this.btnGuardar.TabIndex = 8;
@@ -109,6 +114,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(180, 175);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 32);
             this.btnCancelar.TabIndex = 9;
@@ -133,8 +139,6 @@
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmTorneoAlta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

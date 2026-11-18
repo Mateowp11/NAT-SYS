@@ -10,6 +10,7 @@ namespace NatSys.UI
         public frmGrupos()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             CargarGrupos();
         }
 
@@ -93,6 +94,14 @@ namespace NatSys.UI
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // Doble clic en una fila = Asignar permisos. El encabezado tiene RowIndex -1
+        // y se ignora, asi no se dispara al ordenar columnas.
+        private void dgvGrupos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                btnAsignarPermisos.PerformClick();
         }
     }
 }

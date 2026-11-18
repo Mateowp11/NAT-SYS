@@ -144,6 +144,7 @@
             //
             this.pnlGrafico.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlGrafico.Location = new System.Drawing.Point(20, 95);
+            this.pnlGrafico.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.pnlGrafico.Name = "pnlGrafico";
             this.pnlGrafico.Size = new System.Drawing.Size(860, 330);
             this.pnlGrafico.TabIndex = 11;
@@ -152,6 +153,7 @@
             //
             this.lblResumen.AutoSize = true;
             this.lblResumen.Location = new System.Drawing.Point(20, 435);
+            this.lblResumen.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.lblResumen.Name = "lblResumen";
             this.lblResumen.Size = new System.Drawing.Size(120, 15);
             this.lblResumen.TabIndex = 12;
@@ -167,6 +169,7 @@
             this.dgvResumen.AutoGenerateColumns = true;
             this.dgvResumen.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvResumen.Location = new System.Drawing.Point(20, 455);
+            this.dgvResumen.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dgvResumen.Name = "dgvResumen";
             this.dgvResumen.RowHeadersVisible = false;
             this.dgvResumen.Size = new System.Drawing.Size(860, 140);
@@ -177,6 +180,7 @@
             this.lblCriterio.AutoSize = true;
             this.lblCriterio.ForeColor = System.Drawing.SystemColors.GrayText;
             this.lblCriterio.Location = new System.Drawing.Point(20, 600);
+            this.lblCriterio.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.lblCriterio.Name = "lblCriterio";
             this.lblCriterio.Size = new System.Drawing.Size(700, 15);
             this.lblCriterio.TabIndex = 14;
@@ -186,6 +190,7 @@
             // btnExportarPdf
             //
             this.btnExportarPdf.Location = new System.Drawing.Point(20, 625);
+            this.btnExportarPdf.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnExportarPdf.Name = "btnExportarPdf";
             this.btnExportarPdf.Size = new System.Drawing.Size(120, 35);
             this.btnExportarPdf.TabIndex = 15;
@@ -196,6 +201,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(760, 625);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(120, 35);
             this.btnVolver.TabIndex = 16;
@@ -227,8 +233,6 @@
             this.Controls.Add(this.lblLargoPileta);
             this.Controls.Add(this.cmbAtleta);
             this.Controls.Add(this.lblAtleta);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmReporteEvolucion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

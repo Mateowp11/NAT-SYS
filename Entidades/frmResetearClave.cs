@@ -12,6 +12,7 @@ namespace NatSys.UI
         public frmResetearClave(int idUsuario)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _idUsuario = idUsuario;
         }
 

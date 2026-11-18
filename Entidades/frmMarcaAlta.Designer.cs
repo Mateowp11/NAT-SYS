@@ -50,6 +50,7 @@
             //
             this.cmbAtleta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAtleta.Location = new System.Drawing.Point(130, 20);
+            this.cmbAtleta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbAtleta.Name = "cmbAtleta";
             this.cmbAtleta.Size = new System.Drawing.Size(220, 23);
             this.cmbAtleta.TabIndex = 1;
@@ -68,6 +69,7 @@
             this.cmbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipo.Items.AddRange(new object[] { "oficial", "test" });
             this.cmbTipo.Location = new System.Drawing.Point(130, 55);
+            this.cmbTipo.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbTipo.Name = "cmbTipo";
             this.cmbTipo.Size = new System.Drawing.Size(220, 23);
             this.cmbTipo.TabIndex = 3;
@@ -86,6 +88,7 @@
             //
             this.cmbPrueba.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPrueba.Location = new System.Drawing.Point(130, 90);
+            this.cmbPrueba.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbPrueba.Name = "cmbPrueba";
             this.cmbPrueba.Size = new System.Drawing.Size(220, 23);
             this.cmbPrueba.TabIndex = 5;
@@ -104,6 +107,7 @@
             this.cmbLargoPileta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLargoPileta.Items.AddRange(new object[] { "25", "50" });
             this.cmbLargoPileta.Location = new System.Drawing.Point(130, 125);
+            this.cmbLargoPileta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbLargoPileta.Name = "cmbLargoPileta";
             this.cmbLargoPileta.Size = new System.Drawing.Size(220, 23);
             this.cmbLargoPileta.TabIndex = 7;
@@ -147,6 +151,7 @@
             //
             this.cmbTorneo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTorneo.Location = new System.Drawing.Point(130, 195);
+            this.cmbTorneo.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbTorneo.Name = "cmbTorneo";
             this.cmbTorneo.Size = new System.Drawing.Size(220, 23);
             this.cmbTorneo.TabIndex = 12;
@@ -165,6 +170,7 @@
             //
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFecha.Location = new System.Drawing.Point(130, 230);
+            this.dtpFecha.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(220, 23);
             this.dtpFecha.TabIndex = 14;
@@ -182,6 +188,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(70, 295);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(110, 32);
             this.btnGuardar.TabIndex = 16;
@@ -192,6 +199,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(200, 295);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 32);
             this.btnCancelar.TabIndex = 17;
@@ -224,8 +232,6 @@
             this.Controls.Add(this.lblTipo);
             this.Controls.Add(this.cmbAtleta);
             this.Controls.Add(this.lblAtleta);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMarcaAlta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

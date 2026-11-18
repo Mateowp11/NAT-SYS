@@ -36,6 +36,9 @@
             this.dgvUsuarios.MultiSelect = false;
             this.dgvUsuarios.AutoGenerateColumns = true;
             this.dgvUsuarios.Location = new System.Drawing.Point(20, 20);
+            this.dgvUsuarios.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
+            this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.RowHeadersWidth = 25;
             this.dgvUsuarios.Size = new System.Drawing.Size(650, 300);
@@ -44,6 +47,7 @@
             // btnNuevo
             //
             this.btnNuevo.Location = new System.Drawing.Point(20, 335);
+            this.btnNuevo.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(105, 35);
             this.btnNuevo.TabIndex = 1;
@@ -54,6 +58,7 @@
             // btnAsignarGrupo
             //
             this.btnAsignarGrupo.Location = new System.Drawing.Point(130, 335);
+            this.btnAsignarGrupo.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnAsignarGrupo.Name = "btnAsignarGrupo";
             this.btnAsignarGrupo.Size = new System.Drawing.Size(105, 35);
             this.btnAsignarGrupo.TabIndex = 2;
@@ -64,6 +69,7 @@
             // btnResetearClave
             //
             this.btnResetearClave.Location = new System.Drawing.Point(240, 335);
+            this.btnResetearClave.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnResetearClave.Name = "btnResetearClave";
             this.btnResetearClave.Size = new System.Drawing.Size(105, 35);
             this.btnResetearClave.TabIndex = 3;
@@ -74,6 +80,7 @@
             // btnEliminar
             //
             this.btnEliminar.Location = new System.Drawing.Point(350, 335);
+            this.btnEliminar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(105, 35);
             this.btnEliminar.TabIndex = 4;
@@ -84,6 +91,7 @@
             // btnActualizar
             //
             this.btnActualizar.Location = new System.Drawing.Point(460, 335);
+            this.btnActualizar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(105, 35);
             this.btnActualizar.TabIndex = 5;
@@ -94,6 +102,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(570, 335);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(105, 35);
             this.btnVolver.TabIndex = 6;
@@ -106,6 +115,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 390);
+            this.CancelButton = this.btnVolver;
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnEliminar);
@@ -113,7 +123,6 @@
             this.Controls.Add(this.btnAsignarGrupo);
             this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.dgvUsuarios);
-            this.MaximizeBox = false;
             this.Name = "frmUsuarios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NAT-SYS - Gestión de usuarios";

@@ -27,6 +27,7 @@ namespace NatSys.UI
         public frmPlanesAtleta(int idAtleta, string nombreAtleta)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             _idAtleta = idAtleta;
             lblTitulo.Text = $"Planes guardados de {nombreAtleta}";
             CargarPlanes();

@@ -35,6 +35,9 @@
             this.dgvGrupos.MultiSelect = false;
             this.dgvGrupos.AutoGenerateColumns = true;
             this.dgvGrupos.Location = new System.Drawing.Point(20, 20);
+            this.dgvGrupos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.dgvGrupos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGrupos_CellDoubleClick);
+            this.dgvGrupos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvGrupos.Name = "dgvGrupos";
             this.dgvGrupos.RowHeadersWidth = 25;
             this.dgvGrupos.Size = new System.Drawing.Size(650, 300);
@@ -43,6 +46,7 @@
             // btnNuevo
             //
             this.btnNuevo.Location = new System.Drawing.Point(20, 335);
+            this.btnNuevo.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(110, 35);
             this.btnNuevo.TabIndex = 1;
@@ -53,6 +57,7 @@
             // btnAsignarPermisos
             //
             this.btnAsignarPermisos.Location = new System.Drawing.Point(140, 335);
+            this.btnAsignarPermisos.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnAsignarPermisos.Name = "btnAsignarPermisos";
             this.btnAsignarPermisos.Size = new System.Drawing.Size(130, 35);
             this.btnAsignarPermisos.TabIndex = 2;
@@ -63,6 +68,7 @@
             // btnEliminar
             //
             this.btnEliminar.Location = new System.Drawing.Point(280, 335);
+            this.btnEliminar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(110, 35);
             this.btnEliminar.TabIndex = 3;
@@ -73,6 +79,7 @@
             // btnActualizar
             //
             this.btnActualizar.Location = new System.Drawing.Point(400, 335);
+            this.btnActualizar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(110, 35);
             this.btnActualizar.TabIndex = 4;
@@ -83,6 +90,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(560, 335);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(110, 35);
             this.btnVolver.TabIndex = 5;
@@ -95,13 +103,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 390);
+            this.CancelButton = this.btnVolver;
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnAsignarPermisos);
             this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.dgvGrupos);
-            this.MaximizeBox = false;
             this.Name = "frmGrupos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NAT-SYS - Gestión de grupos";

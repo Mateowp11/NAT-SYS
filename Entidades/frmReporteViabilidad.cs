@@ -21,6 +21,7 @@ namespace NatSys.UI
         public frmReporteViabilidad()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             CargarCombos();
             dtpFechaObjetivo.Value = DateTime.Today.AddMonths(3); // propuesta: dentro de 3 meses
             LimpiarResultado();

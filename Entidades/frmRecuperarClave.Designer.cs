@@ -54,6 +54,7 @@
             // txtUsuario
             //
             this.txtUsuario.Location = new System.Drawing.Point(140, 67);
+            this.txtUsuario.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(180, 23);
             this.txtUsuario.TabIndex = 2;
@@ -61,6 +62,7 @@
             // btnBuscarPregunta
             //
             this.btnBuscarPregunta.Location = new System.Drawing.Point(140, 100);
+            this.btnBuscarPregunta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.btnBuscarPregunta.Name = "btnBuscarPregunta";
             this.btnBuscarPregunta.Size = new System.Drawing.Size(180, 30);
             this.btnBuscarPregunta.TabIndex = 3;
@@ -71,6 +73,7 @@
             // lblPregunta
             //
             this.lblPregunta.Location = new System.Drawing.Point(30, 145);
+            this.lblPregunta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.lblPregunta.Name = "lblPregunta";
             this.lblPregunta.Size = new System.Drawing.Size(290, 40);
             this.lblPregunta.TabIndex = 4;
@@ -90,6 +93,7 @@
             // txtRespuesta
             //
             this.txtRespuesta.Location = new System.Drawing.Point(140, 192);
+            this.txtRespuesta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtRespuesta.Name = "txtRespuesta";
             this.txtRespuesta.Size = new System.Drawing.Size(180, 23);
             this.txtRespuesta.TabIndex = 6;
@@ -108,6 +112,7 @@
             // txtClaveNueva
             //
             this.txtClaveNueva.Location = new System.Drawing.Point(140, 227);
+            this.txtClaveNueva.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtClaveNueva.Name = "txtClaveNueva";
             this.txtClaveNueva.Size = new System.Drawing.Size(180, 23);
             this.txtClaveNueva.TabIndex = 8;
@@ -127,6 +132,7 @@
             // txtConfirmarClave
             //
             this.txtConfirmarClave.Location = new System.Drawing.Point(140, 262);
+            this.txtConfirmarClave.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtConfirmarClave.Name = "txtConfirmarClave";
             this.txtConfirmarClave.Size = new System.Drawing.Size(180, 23);
             this.txtConfirmarClave.TabIndex = 10;
@@ -136,6 +142,7 @@
             // btnRestablecer
             //
             this.btnRestablecer.Location = new System.Drawing.Point(60, 305);
+            this.btnRestablecer.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnRestablecer.Name = "btnRestablecer";
             this.btnRestablecer.Size = new System.Drawing.Size(110, 32);
             this.btnRestablecer.TabIndex = 11;
@@ -147,6 +154,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(180, 305);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 32);
             this.btnCancelar.TabIndex = 12;
@@ -159,6 +167,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 360);
+            this.AcceptButton = this.btnBuscarPregunta;
+            this.CancelButton = this.btnCancelar;
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnRestablecer);
             this.Controls.Add(this.txtConfirmarClave);
@@ -172,8 +182,6 @@
             this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.lblTitulo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmRecuperarClave";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

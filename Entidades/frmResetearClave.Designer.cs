@@ -37,6 +37,7 @@
             // txtClaveNueva
             //
             this.txtClaveNueva.Location = new System.Drawing.Point(130, 22);
+            this.txtClaveNueva.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtClaveNueva.Name = "txtClaveNueva";
             this.txtClaveNueva.Size = new System.Drawing.Size(170, 23);
             this.txtClaveNueva.TabIndex = 1;
@@ -54,6 +55,7 @@
             // txtConfirmarClave
             //
             this.txtConfirmarClave.Location = new System.Drawing.Point(130, 57);
+            this.txtConfirmarClave.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtConfirmarClave.Name = "txtConfirmarClave";
             this.txtConfirmarClave.Size = new System.Drawing.Size(170, 23);
             this.txtConfirmarClave.TabIndex = 3;
@@ -62,6 +64,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(40, 100);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(110, 32);
             this.btnGuardar.TabIndex = 4;
@@ -72,6 +75,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(160, 100);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 32);
             this.btnCancelar.TabIndex = 5;
@@ -85,14 +89,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(320, 150);
+            this.CancelButton = this.btnCancelar;
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtConfirmarClave);
             this.Controls.Add(this.lblConfirmarClave);
             this.Controls.Add(this.txtClaveNueva);
             this.Controls.Add(this.lblClaveNueva);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmResetearClave";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

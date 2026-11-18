@@ -13,6 +13,12 @@ namespace NatSys.UI
             ManejadorErrores.Activar();
             ApplicationConfiguration.Initialize();
 
+            // Letra un poco mas grande en todo el sistema (antes 9 pt). Como los
+            // formularios usan AutoScaleMode.Font, cada ventana se agranda en la
+            // misma proporcion y nada queda encimado. Tiene que ir antes de
+            // abrir la primera ventana.
+            Application.SetDefaultFont(new Font("Segoe UI", 10F));
+
             // La cadena de conexion sale de natsys.config.json (al lado del
             // .exe). Si ese archivo no existe, se usa LocalDB (desarrollo).
             string connectionString;

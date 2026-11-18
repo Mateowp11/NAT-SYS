@@ -23,6 +23,7 @@ namespace NatSys.UI
         public frmReporteEvolucion()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
 
             _grafico = new ScottPlot.WinForms.FormsPlot { Dock = DockStyle.Fill };
             pnlGrafico.Controls.Add(_grafico);

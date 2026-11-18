@@ -10,6 +10,7 @@ namespace NatSys.UI
         public frmTorneos()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             CargarTorneos();
         }
 
@@ -110,6 +111,14 @@ namespace NatSys.UI
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // Doble clic en una fila = Modificar. El encabezado tiene RowIndex -1
+        // y se ignora, asi no se dispara al ordenar columnas.
+        private void dgvTorneos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                btnModificar.PerformClick();
         }
     }
 }
