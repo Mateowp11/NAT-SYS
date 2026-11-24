@@ -115,7 +115,7 @@ namespace NatSys.BLL
             if (!trabajo.TieneContenido())
                 throw new ArgumentException("Tenés que adjuntar el archivo del trabajo o cargar al menos un bloque.");
 
-            // Los dias de gimnasio no tienen serie principal: no hay tiempos que cargar
+            // CA-07: los dias de gimnasio no tienen serie principal, no hay tiempos que cargar
             if (trabajo.Tipo == TrabajoDiario.TipoGimnasio && trabajo.Bloques.Any())
                 throw new ArgumentException("Un trabajo de gimnasio no lleva bloques: adjuntá solo el archivo.");
 

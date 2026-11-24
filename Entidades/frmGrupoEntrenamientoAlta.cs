@@ -120,8 +120,9 @@ namespace NatSys.UI
             }
             catch (ArgumentException ex)
             {
-                // CA-01: se resaltan los campos que faltan y el formulario
-                // queda abierto para corregir (se retoma desde el paso 6 u 11)
+                // CA-01 (faltan datos) y CA-04 (nombre repetido): se resaltan
+                // los campos que faltan y el formulario queda abierto para
+                // corregir (se retoma desde el paso 6 u 11)
                 ResaltarFaltantes();
                 MessageBox.Show(ex.Message, "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -132,7 +133,6 @@ namespace NatSys.UI
         {
             txtNombre.BackColor = string.IsNullOrWhiteSpace(txtNombre.Text) ? Color.MistyRose : SystemColors.Window;
             cmbEntrenador.BackColor = cmbEntrenador.SelectedItem == null ? Color.MistyRose : SystemColors.Window;
-            clbAtletas.BackColor = clbAtletas.CheckedItems.Count == 0 ? Color.MistyRose : SystemColors.Window;
         }
 
         // CA-03: se descartan los cambios

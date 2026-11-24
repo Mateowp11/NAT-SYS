@@ -47,8 +47,9 @@ namespace NatSys.BLL
         public void AgregarGrupo(string nombre, int idEntrenador, List<int> idsAtletas)
         {
             ValidarDatos(nombre, idEntrenador);
-            ValidarAtletas(idsAtletas);
+            idsAtletas ??= new List<int>(); // un grupo puede crearse sin atletas y completarse despues
 
+            // CA-04: no puede haber dos grupos con el mismo nombre
             if (_grupoDAL.ExisteNombre(nombre.Trim()))
                 throw new ArgumentException("Ya existe un grupo con ese nombre.");
 
@@ -66,8 +67,9 @@ namespace NatSys.BLL
         public void ModificarGrupo(int idGrupo, string nombre, int idEntrenador, List<int> idsAtletas)
         {
             ValidarDatos(nombre, idEntrenador);
-            ValidarAtletas(idsAtletas);
+            idsAtletas ??= new List<int>(); // se pueden destildar todos
 
+            // CA-04: el nombre no puede repetir el de otro grupo
             if (_grupoDAL.ExisteNombre(nombre.Trim(), idGrupo))
                 throw new ArgumentException("Ya existe otro grupo con ese nombre.");
 
@@ -98,13 +100,6 @@ namespace NatSys.BLL
 
             if (idEntrenador <= 0)
                 throw new ArgumentException("Tenés que seleccionar el entrenador a cargo.");
-        }
-
-        // Multiplicidad del diagrama de clases: un grupo tiene 1..* atletas
-        private void ValidarAtletas(List<int> idsAtletas)
-        {
-            if (idsAtletas == null || !idsAtletas.Any())
-                throw new ArgumentException("Tenés que seleccionar al menos un atleta para el grupo.");
         }
     }
 }
