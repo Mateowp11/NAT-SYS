@@ -36,6 +36,7 @@
             // btnViabilidad
             //
             this.btnViabilidad.Location = new System.Drawing.Point(30, 65);
+            this.btnViabilidad.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.btnViabilidad.Name = "btnViabilidad";
             this.btnViabilidad.Size = new System.Drawing.Size(300, 45);
             this.btnViabilidad.TabIndex = 1;
@@ -46,6 +47,7 @@
             // btnEvolucion
             //
             this.btnEvolucion.Location = new System.Drawing.Point(30, 120);
+            this.btnEvolucion.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.btnEvolucion.Name = "btnEvolucion";
             this.btnEvolucion.Size = new System.Drawing.Size(300, 45);
             this.btnEvolucion.TabIndex = 2;
@@ -56,6 +58,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(220, 180);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(110, 32);
             this.btnVolver.TabIndex = 3;
@@ -73,8 +76,6 @@
             this.Controls.Add(this.btnEvolucion);
             this.Controls.Add(this.btnViabilidad);
             this.Controls.Add(this.lblTitulo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmReportes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -9,14 +9,32 @@ namespace NatSys.UI
         [STAThread]
         static void Main()
         {
-            // TODO: cuando armemos el instalador, esta cadena va a venir de
-            // un archivo de configuracion externo (distinta para cada
-            // cliente). Por ahora, para desarrollar y probar, la dejamos
-            // fija aca. Ajustá el nombre del servidor a tu SQL Server local.
-            // Rama iteracion-2: base aparte para no tocar la de Ingenieria de Software (NatSysDB).
-            string connectionString =
-                @"Server=(localdb)\mssqllocaldb;Database=NatSysDB_Diploma;Trusted_Connection=True;TrustServerCertificate=True;";
+            // Primero el manejador global de errores, antes de abrir cualquier ventana
+            ManejadorErrores.Activar();
+            ApplicationConfiguration.Initialize();
 
+            // Letra un poco mas grande en todo el sistema (antes 9 pt). Como los
+            // formularios usan AutoScaleMode.Font, cada ventana se agranda en la
+            // misma proporcion y nada queda encimado. Tiene que ir antes de
+            // abrir la primera ventana.
+            Application.SetDefaultFont(new Font("Segoe UI", 10F));
+
+            // La cadena de conexion sale de natsys.config.json (al lado del
+            // .exe). Si ese archivo no existe, se usa LocalDB (desarrollo).
+            string connectionString;
+            try
+            {
+                connectionString = ConfiguracionApp.ObtenerCadenaConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"No se pudo leer el archivo de configuración {ConfiguracionApp.NombreArchivo}.\n\n{ex.Message}",
+                    "NAT-SYS", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            GestorBaseDatos.Inicializar(connectionString);
             GestorSeguridad.Inicializar(connectionString);
             GestorUsuarios.Inicializar(connectionString);
             GestorGrupos.Inicializar(connectionString);
@@ -30,7 +48,14 @@ namespace NatSys.UI
             GestorGrupoEntrenamiento.Inicializar(connectionString);
             GestorTrabajoDiario.Inicializar(connectionString);
 
-            ApplicationConfiguration.Initialize();
+            // Antes del login: ¿hay conexion y la base es de esta version?
+            // Si no, frmConexion ya le explico el problema al usuario y se sale.
+            using (var frmConexion = new frmConexion())
+            {
+                if (frmConexion.ShowDialog() != DialogResult.OK)
+                    return;
+            }
+
             Application.Run(new frmLogin());
         }
     }

@@ -31,6 +31,7 @@
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.Location = new System.Drawing.Point(90, 30);
+            this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(180, 41);
             this.lblTitulo.TabIndex = 0;
@@ -40,6 +41,7 @@
             //
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Location = new System.Drawing.Point(50, 110);
+            this.lblUsuario.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(58, 15);
             this.lblUsuario.TabIndex = 1;
@@ -48,6 +50,7 @@
             // txtUsuario
             //
             this.txtUsuario.Location = new System.Drawing.Point(140, 107);
+            this.txtUsuario.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(180, 23);
             this.txtUsuario.TabIndex = 2;
@@ -56,6 +59,7 @@
             //
             this.lblClave.AutoSize = true;
             this.lblClave.Location = new System.Drawing.Point(50, 150);
+            this.lblClave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblClave.Name = "lblClave";
             this.lblClave.Size = new System.Drawing.Size(70, 15);
             this.lblClave.TabIndex = 3;
@@ -64,6 +68,7 @@
             // txtClave
             //
             this.txtClave.Location = new System.Drawing.Point(140, 147);
+            this.txtClave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtClave.Name = "txtClave";
             this.txtClave.Size = new System.Drawing.Size(180, 23);
             this.txtClave.TabIndex = 4;
@@ -72,6 +77,7 @@
             // btnIngresar
             //
             this.btnIngresar.Location = new System.Drawing.Point(140, 190);
+            this.btnIngresar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(90, 30);
             this.btnIngresar.TabIndex = 5;
@@ -85,6 +91,7 @@
             this.btnOlvideClave.FlatAppearance.BorderSize = 0;
             this.btnOlvideClave.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnOlvideClave.Location = new System.Drawing.Point(50, 230);
+            this.btnOlvideClave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnOlvideClave.Name = "btnOlvideClave";
             this.btnOlvideClave.Size = new System.Drawing.Size(180, 25);
             this.btnOlvideClave.TabIndex = 6;
@@ -105,8 +112,6 @@
             this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.lblTitulo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NAT-SYS - Iniciar sesión";

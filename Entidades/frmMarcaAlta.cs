@@ -31,6 +31,7 @@ namespace NatSys.UI
         public frmMarcaAlta()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _marcaAEditar = null;
             this.Text = "Nueva marca";
 
@@ -48,6 +49,7 @@ namespace NatSys.UI
         public frmMarcaAlta(Marca marca, bool soloLectura)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _marcaAEditar = marca;
             this.Text = soloLectura ? "Detalle de marca" : "Modificar marca";
 

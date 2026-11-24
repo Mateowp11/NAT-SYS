@@ -9,6 +9,7 @@ namespace NatSys.UI
         public frmReportes()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
         }
 
         // RD-06.1

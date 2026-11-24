@@ -10,6 +10,7 @@ namespace NatSys.UI
         public frmAtletas()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             CargarAtletas();
         }
 
@@ -172,6 +173,14 @@ namespace NatSys.UI
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // Doble clic en una fila = Modificar. El encabezado tiene RowIndex -1
+        // y se ignora, asi no se dispara al ordenar columnas.
+        private void dgvAtletas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                btnModificar.PerformClick();
         }
     }
 }

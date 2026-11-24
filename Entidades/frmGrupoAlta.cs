@@ -9,6 +9,7 @@ namespace NatSys.UI
         public frmGrupoAlta()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

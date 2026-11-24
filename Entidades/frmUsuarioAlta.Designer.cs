@@ -47,6 +47,7 @@
             // txtNombre
             //
             this.txtNombre.Location = new System.Drawing.Point(150, 17);
+            this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(190, 23);
             this.txtNombre.TabIndex = 1;
@@ -63,6 +64,7 @@
             // txtApellido
             //
             this.txtApellido.Location = new System.Drawing.Point(150, 50);
+            this.txtApellido.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(190, 23);
             this.txtApellido.TabIndex = 3;
@@ -79,6 +81,7 @@
             // txtEspecialidad
             //
             this.txtEspecialidad.Location = new System.Drawing.Point(150, 83);
+            this.txtEspecialidad.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtEspecialidad.Name = "txtEspecialidad";
             this.txtEspecialidad.Size = new System.Drawing.Size(190, 23);
             this.txtEspecialidad.TabIndex = 5;
@@ -95,6 +98,7 @@
             // txtNombreUsuario
             //
             this.txtNombreUsuario.Location = new System.Drawing.Point(150, 122);
+            this.txtNombreUsuario.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtNombreUsuario.Name = "txtNombreUsuario";
             this.txtNombreUsuario.Size = new System.Drawing.Size(190, 23);
             this.txtNombreUsuario.TabIndex = 7;
@@ -111,6 +115,7 @@
             // txtClaveInicial
             //
             this.txtClaveInicial.Location = new System.Drawing.Point(150, 155);
+            this.txtClaveInicial.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtClaveInicial.Name = "txtClaveInicial";
             this.txtClaveInicial.Size = new System.Drawing.Size(190, 23);
             this.txtClaveInicial.TabIndex = 9;
@@ -129,6 +134,7 @@
             //
             this.cmbPregunta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPregunta.Location = new System.Drawing.Point(150, 188);
+            this.cmbPregunta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.cmbPregunta.Name = "cmbPregunta";
             this.cmbPregunta.Size = new System.Drawing.Size(190, 23);
             this.cmbPregunta.TabIndex = 11;
@@ -145,6 +151,7 @@
             // txtRespuesta
             //
             this.txtRespuesta.Location = new System.Drawing.Point(150, 221);
+            this.txtRespuesta.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtRespuesta.Name = "txtRespuesta";
             this.txtRespuesta.Size = new System.Drawing.Size(190, 23);
             this.txtRespuesta.TabIndex = 13;
@@ -152,6 +159,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(80, 265);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(110, 32);
             this.btnGuardar.TabIndex = 14;
@@ -162,6 +170,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(200, 265);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 32);
             this.btnCancelar.TabIndex = 15;
@@ -192,8 +201,6 @@
             this.Controls.Add(this.lblApellido);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmUsuarioAlta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

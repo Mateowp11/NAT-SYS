@@ -100,6 +100,8 @@
             // Fill: las columnas se reparten todo el ancho de la grilla
             this.dgvMarcas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMarcas.Location = new System.Drawing.Point(20, 75);
+            this.dgvMarcas.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.dgvMarcas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMarcas_CellDoubleClick);
             this.dgvMarcas.Name = "dgvMarcas";
             this.dgvMarcas.RowHeadersWidth = 25;
             this.dgvMarcas.Size = new System.Drawing.Size(760, 300);
@@ -108,6 +110,7 @@
             // btnNuevo
             //
             this.btnNuevo.Location = new System.Drawing.Point(20, 390);
+            this.btnNuevo.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(110, 35);
             this.btnNuevo.TabIndex = 7;
@@ -118,6 +121,7 @@
             // btnModificar
             //
             this.btnModificar.Location = new System.Drawing.Point(140, 390);
+            this.btnModificar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(110, 35);
             this.btnModificar.TabIndex = 8;
@@ -128,6 +132,7 @@
             // btnVerDetalle
             //
             this.btnVerDetalle.Location = new System.Drawing.Point(260, 390);
+            this.btnVerDetalle.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnVerDetalle.Name = "btnVerDetalle";
             this.btnVerDetalle.Size = new System.Drawing.Size(110, 35);
             this.btnVerDetalle.TabIndex = 9;
@@ -138,6 +143,7 @@
             // btnEliminar
             //
             this.btnEliminar.Location = new System.Drawing.Point(380, 390);
+            this.btnEliminar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(110, 35);
             this.btnEliminar.TabIndex = 10;
@@ -148,6 +154,7 @@
             // btnActualizar
             //
             this.btnActualizar.Location = new System.Drawing.Point(500, 390);
+            this.btnActualizar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(110, 35);
             this.btnActualizar.TabIndex = 11;
@@ -158,6 +165,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(670, 390);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(110, 35);
             this.btnVolver.TabIndex = 12;
@@ -170,6 +178,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 445);
+            this.CancelButton = this.btnVolver;
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnEliminar);
@@ -183,8 +192,6 @@
             this.Controls.Add(this.lblFiltroPrueba);
             this.Controls.Add(this.cmbFiltroAtleta);
             this.Controls.Add(this.lblFiltroAtleta);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMarcas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

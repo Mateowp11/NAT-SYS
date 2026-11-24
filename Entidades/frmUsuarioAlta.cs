@@ -16,6 +16,7 @@ namespace NatSys.UI
         public frmUsuarioAlta()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             cmbPregunta.DataSource = PreguntasSeguridad.Disponibles;
         }
 

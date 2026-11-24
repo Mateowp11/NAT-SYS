@@ -9,6 +9,7 @@ namespace NatSys.UI
         public frmRecuperarClave()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
         }
 
         private void btnBuscarPregunta_Click(object sender, EventArgs e)
@@ -40,6 +41,9 @@ namespace NatSys.UI
 
             txtUsuario.Enabled = false;
             btnBuscarPregunta.Enabled = false;
+
+            // Desde ahora, Enter confirma el segundo paso
+            AcceptButton = btnRestablecer;
         }
 
         private void btnRestablecer_Click(object sender, EventArgs e)

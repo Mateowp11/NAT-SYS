@@ -188,6 +188,7 @@
             //
             this.lblConclusion.AutoSize = false;
             this.lblConclusion.Location = new System.Drawing.Point(20, 350);
+            this.lblConclusion.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.lblConclusion.Name = "lblConclusion";
             this.lblConclusion.Size = new System.Drawing.Size(600, 65);
             this.lblConclusion.TabIndex = 16;
@@ -211,6 +212,7 @@
             this.dgvProgresion.AutoGenerateColumns = true;
             this.dgvProgresion.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProgresion.Location = new System.Drawing.Point(20, 440);
+            this.dgvProgresion.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dgvProgresion.Name = "dgvProgresion";
             this.dgvProgresion.RowHeadersVisible = false;
             this.dgvProgresion.Size = new System.Drawing.Size(600, 140);
@@ -219,6 +221,7 @@
             // btnExportarPdf
             //
             this.btnExportarPdf.Location = new System.Drawing.Point(20, 595);
+            this.btnExportarPdf.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnExportarPdf.Name = "btnExportarPdf";
             this.btnExportarPdf.Size = new System.Drawing.Size(120, 35);
             this.btnExportarPdf.TabIndex = 19;
@@ -229,6 +232,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(500, 595);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(120, 35);
             this.btnVolver.TabIndex = 20;
@@ -264,8 +268,6 @@
             this.Controls.Add(this.lblPrueba);
             this.Controls.Add(this.cmbAtleta);
             this.Controls.Add(this.lblAtleta);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmReporteViabilidad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

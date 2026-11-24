@@ -48,6 +48,7 @@
             this.dgvPlanes.AutoGenerateColumns = true;
             this.dgvPlanes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvPlanes.Location = new System.Drawing.Point(20, 50);
+            this.dgvPlanes.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dgvPlanes.Name = "dgvPlanes";
             this.dgvPlanes.RowHeadersWidth = 25;
             this.dgvPlanes.Size = new System.Drawing.Size(700, 200);
@@ -84,6 +85,7 @@
             this.dgvTramos.AutoGenerateColumns = true;
             this.dgvTramos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTramos.Location = new System.Drawing.Point(20, 290);
+            this.dgvTramos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dgvTramos.Name = "dgvTramos";
             this.dgvTramos.RowHeadersVisible = false;
             this.dgvTramos.Size = new System.Drawing.Size(700, 180);
@@ -92,6 +94,7 @@
             // btnEliminar
             //
             this.btnEliminar.Location = new System.Drawing.Point(20, 485);
+            this.btnEliminar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(130, 35);
             this.btnEliminar.TabIndex = 5;
@@ -102,6 +105,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(620, 485);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(100, 35);
             this.btnVolver.TabIndex = 6;
@@ -114,6 +118,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 540);
+            this.CancelButton = this.btnVolver;
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.dgvTramos);
@@ -121,7 +126,6 @@
             this.Controls.Add(this.lblSinPlanes);
             this.Controls.Add(this.dgvPlanes);
             this.Controls.Add(this.lblTitulo);
-            this.MaximizeBox = false;
             this.Name = "frmPlanesAtleta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NAT-SYS - Planes de pasajes guardados";

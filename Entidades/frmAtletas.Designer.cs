@@ -37,6 +37,9 @@
             this.dgvAtletas.MultiSelect = false;
             this.dgvAtletas.AutoGenerateColumns = true;
             this.dgvAtletas.Location = new System.Drawing.Point(20, 20);
+            this.dgvAtletas.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.dgvAtletas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAtletas_CellDoubleClick);
+            this.dgvAtletas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAtletas.Name = "dgvAtletas";
             this.dgvAtletas.RowHeadersWidth = 25;
             this.dgvAtletas.Size = new System.Drawing.Size(790, 300);
@@ -45,6 +48,7 @@
             // btnNuevo
             //
             this.btnNuevo.Location = new System.Drawing.Point(20, 335);
+            this.btnNuevo.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(100, 35);
             this.btnNuevo.TabIndex = 1;
@@ -55,6 +59,7 @@
             // btnModificar
             //
             this.btnModificar.Location = new System.Drawing.Point(125, 335);
+            this.btnModificar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(100, 35);
             this.btnModificar.TabIndex = 2;
@@ -65,6 +70,7 @@
             // btnEliminar
             //
             this.btnEliminar.Location = new System.Drawing.Point(230, 335);
+            this.btnEliminar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(100, 35);
             this.btnEliminar.TabIndex = 3;
@@ -75,6 +81,7 @@
             // btnActivarDesactivar
             //
             this.btnActivarDesactivar.Location = new System.Drawing.Point(335, 335);
+            this.btnActivarDesactivar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnActivarDesactivar.Name = "btnActivarDesactivar";
             this.btnActivarDesactivar.Size = new System.Drawing.Size(150, 35);
             this.btnActivarDesactivar.TabIndex = 4;
@@ -85,6 +92,7 @@
             // btnPlanes
             //
             this.btnPlanes.Location = new System.Drawing.Point(490, 335);
+            this.btnPlanes.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnPlanes.Name = "btnPlanes";
             this.btnPlanes.Size = new System.Drawing.Size(100, 35);
             this.btnPlanes.TabIndex = 5;
@@ -95,6 +103,7 @@
             // btnActualizar
             //
             this.btnActualizar.Location = new System.Drawing.Point(595, 335);
+            this.btnActualizar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(100, 35);
             this.btnActualizar.TabIndex = 6;
@@ -105,6 +114,7 @@
             // btnVolver
             //
             this.btnVolver.Location = new System.Drawing.Point(710, 335);
+            this.btnVolver.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(100, 35);
             this.btnVolver.TabIndex = 7;
@@ -117,6 +127,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 390);
+            this.CancelButton = this.btnVolver;
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnPlanes);
@@ -125,7 +136,6 @@
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.dgvAtletas);
-            this.MaximizeBox = false;
             this.Name = "frmAtletas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NAT-SYS - Gestión de atletas";

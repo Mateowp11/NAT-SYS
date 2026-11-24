@@ -10,6 +10,7 @@ namespace NatSys.UI
         public frmUsuarios()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: true); // tamaño, lugar y maximizado
             CargarUsuarios();
         }
 
@@ -100,6 +101,14 @@ namespace NatSys.UI
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // Doble clic en una fila = Asignar grupo. El encabezado tiene RowIndex -1
+        // y se ignora, asi no se dispara al ordenar columnas.
+        private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                btnAsignarGrupo.PerformClick();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace NatSys.UI
         public frmAsignarGrupoUsuario(int idUsuario, string nombreUsuario)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _idUsuario = idUsuario;
             this.Text = $"Grupos de: {nombreUsuario}";
             CargarGrupos();

@@ -23,6 +23,7 @@ namespace NatSys.UI
         public frmAtletaAlta()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _atletaAEditar = null;
             this.Text = "Nuevo atleta";
             CargarPruebas();
@@ -31,6 +32,7 @@ namespace NatSys.UI
         public frmAtletaAlta(Atleta atleta)
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
             _atletaAEditar = atleta;
             this.Text = "Modificar atleta";
 

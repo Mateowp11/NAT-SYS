@@ -37,6 +37,7 @@
             // txtNombre
             //
             this.txtNombre.Location = new System.Drawing.Point(120, 20);
+            this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(190, 23);
             this.txtNombre.TabIndex = 1;
@@ -53,6 +54,7 @@
             // txtDescripcion
             //
             this.txtDescripcion.Location = new System.Drawing.Point(120, 55);
+            this.txtDescripcion.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(190, 23);
             this.txtDescripcion.TabIndex = 3;
@@ -60,6 +62,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(50, 100);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(110, 32);
             this.btnGuardar.TabIndex = 4;
@@ -70,6 +73,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(170, 100);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 32);
             this.btnCancelar.TabIndex = 5;
@@ -90,8 +94,6 @@
             this.Controls.Add(this.lblDescripcion);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmGrupoAlta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -43,6 +43,7 @@
             // txtNombre
             //
             this.txtNombre.Location = new System.Drawing.Point(140, 20);
+            this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(170, 23);
             this.txtNombre.TabIndex = 1;
@@ -59,6 +60,7 @@
             // txtApellido
             //
             this.txtApellido.Location = new System.Drawing.Point(140, 55);
+            this.txtApellido.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(170, 23);
             this.txtApellido.TabIndex = 3;
@@ -76,6 +78,7 @@
             //
             this.dtpFechaNacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaNacimiento.Location = new System.Drawing.Point(140, 90);
+            this.dtpFechaNacimiento.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
             this.dtpFechaNacimiento.Size = new System.Drawing.Size(170, 23);
             this.dtpFechaNacimiento.TabIndex = 5;
@@ -93,6 +96,7 @@
             // txtCategoria
             //
             this.txtCategoria.Location = new System.Drawing.Point(140, 125);
+            this.txtCategoria.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.txtCategoria.Name = "txtCategoria";
             this.txtCategoria.Size = new System.Drawing.Size(170, 23);
             this.txtCategoria.TabIndex = 7;
@@ -110,6 +114,7 @@
             //
             this.clbPruebas.CheckOnClick = true;
             this.clbPruebas.Location = new System.Drawing.Point(20, 183);
+            this.clbPruebas.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.clbPruebas.Name = "clbPruebas";
             this.clbPruebas.Size = new System.Drawing.Size(290, 184);
             this.clbPruebas.TabIndex = 11;
@@ -117,6 +122,7 @@
             // btnGuardar
             //
             this.btnGuardar.Location = new System.Drawing.Point(60, 385);
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(100, 32);
             this.btnGuardar.TabIndex = 8;
@@ -127,6 +133,7 @@
             // btnCancelar
             //
             this.btnCancelar.Location = new System.Drawing.Point(175, 385);
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 32);
             this.btnCancelar.TabIndex = 9;
@@ -153,8 +160,6 @@
             this.Controls.Add(this.lblApellido);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAtletaAlta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -9,6 +9,7 @@ namespace NatSys.UI
         public frmLogin()
         {
             InitializeComponent();
+            AjustesVentana.Activar(this, abrirMaximizada: false); // tamaño, lugar y maximizado
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)

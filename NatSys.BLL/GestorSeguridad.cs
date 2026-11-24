@@ -3,7 +3,8 @@
 //   +getInstancia(): GestorSeguridad
 //   +iniciarSesion(txtUsuario: string, txtClave: string): Sesion
 //   +cerrarSesion(sesion: Sesion): void
-//   +cambiarContraseña(u: Usuario, nuevaClave: string): bool
+//   +cambiarContraseña(u: Usuario, claveActual: string, nuevaClave: string): void
+//     (ahora tambien pide la clave actual: hay que actualizarlo en el diagrama)
 //   +verificarPermiso(u: Usuario, codigoPermiso: string): bool
 //   -verificarIntentosFallidos(u: Usuario): void   <- privado en tu diagrama
 //
@@ -112,18 +113,32 @@ namespace NatSys.BLL
                 sesionActual = null;
         }
 
-        // Nota: tu diagrama no incluye la clave actual como parametro, asi
-        // que no la volvemos a pedir aca (se asume que ya esta autenticado
-        // por tener una sesion activa). Si mas adelante queres pedirla de
-        // nuevo como capa extra de seguridad, es un cambio de una linea.
-        public bool CambiarContraseña(Usuario usuario, string nuevaClave)
+        // RF-05.5: el usuario que inicio sesion cambia su propia contraseña.
+        // Pide la clave actual: si alguien encuentra la sesion abierta en una
+        // PC, no puede cambiarla sin saberla. Los errores se avisan con
+        // CredencialesInvalidasException, igual que en el login, y la
+        // pantalla muestra ex.Message.
+        public void CambiarContraseña(Usuario usuario, string claveActual, string nuevaClave)
         {
-            if (!PasswordHasher.CumpleRequisitos(nuevaClave, out _))
-                return false;
+            if (string.IsNullOrEmpty(claveActual) || string.IsNullOrEmpty(nuevaClave))
+                throw new CredencialesInvalidasException("Completá la contraseña actual y la nueva.");
+
+            // Se lee de la base y no de la sesion, por si la clave cambio
+            // despues de iniciar sesion
+            var usuarioBase = _usuarioDAL.ObtenerPorNombreUsuario(usuario.NombreUsuario);
+            if (usuarioBase == null || !PasswordHasher.VerifyPassword(claveActual, usuarioBase.Clave))
+                throw new CredencialesInvalidasException("La contraseña actual no es correcta.");
+
+            if (PasswordHasher.VerifyPassword(nuevaClave, usuarioBase.Clave))
+                throw new CredencialesInvalidasException("La contraseña nueva tiene que ser distinta de la actual.");
+
+            // Mismas reglas que en todo el sistema: 8 caracteres, letras y numeros
+            if (!PasswordHasher.CumpleRequisitos(nuevaClave, out string mensajeError))
+                throw new CredencialesInvalidasException(mensajeError);
 
             string hashNueva = PasswordHasher.HashPassword(nuevaClave);
-            _usuarioDAL.ActualizarClave(usuario.IdUsuario, hashNueva);
-            return true;
+            _usuarioDAL.ActualizarClave(usuarioBase.IdUsuario, hashNueva);
+            usuario.Clave = hashNueva; // la sesion abierta queda al dia
         }
 
         // Un usuario tiene el permiso si ALGUNO de sus grupos lo incluye
